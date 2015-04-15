@@ -7,9 +7,12 @@
 //
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-int main(int argc, const char * argv[]) {
-    // insert code here...
-    printf("Hello, World!\n");
+int main() {
+    
+    printf("hello midterm");
+    
     return 0;
 }
