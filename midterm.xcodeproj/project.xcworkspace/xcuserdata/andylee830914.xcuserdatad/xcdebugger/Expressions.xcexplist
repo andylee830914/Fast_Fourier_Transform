@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "quicksort:sort.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "v[i]">
+            </PersistentString>
+            <PersistentString
+               value = "great[n]">
+            </PersistentString>
+            <PersistentString
+               value = "pivots[o]">
+            </PersistentString>
+            <PersistentString
+               value = "v[pivot]">
+            </PersistentString>
+            <PersistentString
+               value = "less[m]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
