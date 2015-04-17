@@ -19,7 +19,7 @@ int sort(int *v,int N){
 	//printf("random:%d,%d\n",random,v[random]);
 	//*N={18,40,31,88,11,90,5,87,93,18};
 	//36,13,87,59,67,12,32,38,27,62,
-	v[0]=36;
+	/*v[0]=36;
 	v[1]=13;
 	v[2]=87;
 	v[3]=59;
@@ -29,7 +29,7 @@ int sort(int *v,int N){
 	v[7]=38;
 	v[8]=27;
 	v[9]=62;
-	
+	*/
 	for(i=0;i<N;++i){
 		printf("%d,",v[i]);
 	}
@@ -45,9 +45,9 @@ int quicksort(int N,int *v){
 	int m=0,n=0,o=0;
 	//pick middle point of array
 	pivot=N/2;
-	less=(int *) malloc(pivot *sizeof(int));
-	great=(int *) malloc(pivot *sizeof(int));
-	pivots=(int *) malloc(pivot *sizeof(int));
+	less=(int *) malloc(N *sizeof(int));
+	great=(int *) malloc(N *sizeof(int));
+	pivots=(int *) malloc(N *sizeof(int));
 	if (N<=1) {
 		return *v;
 	}else{
@@ -60,20 +60,22 @@ int quicksort(int N,int *v){
 				printf("pivot:(%d,%d)\n",v[i],v[pivot]);
 				m++;
 			}
-			if (v[i] > v[pivot]){
+			else if (v[i] > v[pivot]){
 				great[n]=v[i];
 				printf("pivot:(%d,%d)\n",v[i],v[pivot]);
 				n++;
 			}
-			if (v[i] == v[pivot]){
+			else if (v[i] == v[pivot]){
 				
 				pivots[o]=v[i];
-				printf("pivot:(%d,%d)\n",v[i],v[pivot]);
+				printf("pivot:(%d,%d,%d)\n",v[i],v[pivot],pivots[o]);
 				o++;
+				
 			}
 			for(k=0;k<o;++k){
 				printf("%d,%d,%d\n",i,k,pivots[k]);
 			}
+			
 		}
 		
 		
@@ -114,8 +116,7 @@ int quicksort(int N,int *v){
 		j++;
 	}
 	printf("\n");
-	
-	
+		
 	
 	
 	
