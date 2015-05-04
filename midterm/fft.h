@@ -15,4 +15,5 @@
 #include <time.h>
 
 #endif /* defined(__midterm__fft__) */
-int FFT(double *, double *, double *, double *, int N);
+int fft(double *, double *, double *, double *, int N);
+/* define input x_r,input x_i,output y_r,output y_i, points of doing fft */
