@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BA860C661ADF5FE000176884 /* sort.c in Sources */ = {isa = PBXBuildFile; fileRef = BA860C641ADF5FE000176884 /* sort.c */; };
+		BAB236D21AF7B9500024D4B3 /* fft.c in Sources */ = {isa = PBXBuildFile; fileRef = BAB236D01AF7B9500024D4B3 /* fft.c */; };
 		BACC83031ADE134E00402556 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = BACC83021ADE134E00402556 /* main.c */; };
 /* End PBXBuildFile section */
 
@@ -26,6 +27,8 @@
 /* Begin PBXFileReference section */
 		BA860C641ADF5FE000176884 /* sort.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sort.c; sourceTree = "<group>"; };
 		BA860C651ADF5FE000176884 /* sort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sort.h; sourceTree = "<group>"; };
+		BAB236D01AF7B9500024D4B3 /* fft.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fft.c; sourceTree = "<group>"; };
+		BAB236D11AF7B9500024D4B3 /* fft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fft.h; sourceTree = "<group>"; };
 		BACC82FF1ADE134E00402556 /* midterm */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = midterm; sourceTree = BUILT_PRODUCTS_DIR; };
 		BACC83021ADE134E00402556 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -61,6 +64,8 @@
 			isa = PBXGroup;
 			children = (
 				BA860C641ADF5FE000176884 /* sort.c */,
+				BAB236D01AF7B9500024D4B3 /* fft.c */,
+				BAB236D11AF7B9500024D4B3 /* fft.h */,
 				BA860C651ADF5FE000176884 /* sort.h */,
 				BACC83021ADE134E00402556 /* main.c */,
 			);
@@ -123,6 +128,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BAB236D21AF7B9500024D4B3 /* fft.c in Sources */,
 				BACC83031ADE134E00402556 /* main.c in Sources */,
 				BA860C661ADF5FE000176884 /* sort.c in Sources */,
 			);

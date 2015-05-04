@@ -27,6 +27,6 @@ int main() {
 	}
 	
 	
-	sort(v,N);
+	//sort(v,N);
     return 0;
 }
