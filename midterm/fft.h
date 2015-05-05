@@ -17,3 +17,4 @@
 #endif /* defined(__midterm__fft__) */
 int fft(double *, double *, double *, double *, int N);
 /* define input x_r,input x_i,output y_r,output y_i, points of doing fft */
+int print_complex(double *, double *, int N);
