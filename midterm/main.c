@@ -37,8 +37,8 @@ int main() {
 	scanf("%d", &p);
 	printf("input: 3^q q=");
 	scanf("%d", &q);
-	//N = 1 << p;
-	N=pow(2, p)*pow(3,q);
+	N = 1 << p;
+	N=N*pow(3,q);
 	printf("N=%d\n",N);
 	
 	x_r = (double *) malloc(N*sizeof(double));
