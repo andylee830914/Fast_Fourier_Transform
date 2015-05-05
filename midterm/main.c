@@ -16,7 +16,7 @@
 
 int main() {
 	int N;
-	int n, p;
+	int n, p,q;
 	double *y_r, *y_i, *x_r, *x_i;
 	clock_t t1, t2;
     printf("hello midterm \n");
@@ -35,7 +35,10 @@ int main() {
 	
 	printf("input: 2^p p=");
 	scanf("%d", &p);
-	N = 1 << p;
+	printf("input: 3^q q=");
+	scanf("%d", &q);
+	//N = 1 << p;
+	N=pow(2, p)*pow(3,q);
 	printf("N=%d\n",N);
 	
 	x_r = (double *) malloc(N*sizeof(double));
