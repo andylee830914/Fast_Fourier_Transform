@@ -16,7 +16,7 @@
 
 int main() {
 	int N;
-	int n, p,q;
+	int n, p,q,r;
 	double *y_r, *y_i, *x_r, *x_i;
 	clock_t t1, t2;
     printf("hello midterm \n");
@@ -33,10 +33,8 @@ int main() {
 	}
 	 */
 	
-	printf("input: 2^p p=");
-	scanf("%d", &p);
-	printf("input: 3^q q=");
-	scanf("%d", &q);
+	printf("input 2^p 3^q 5^r : p q r =>");
+	scanf("%d %d %d", &p,&q,&r);
 	N = 1 << p;
 	N=N*pow(3,q);
 	printf("N=%d\n",N);
@@ -55,11 +53,11 @@ int main() {
 	
 	t1 = clock();
 	fft(x_r, x_i, y_r, y_i, N);
-	print_complex(y_r, y_i, N);
+	//
 	t2 = clock();
 	
 	printf("%f secs\n", 1.0*(t2-t1)/CLOCKS_PER_SEC);//print times
-	
+	print_complex(y_r, y_i, N);
 	//sort(v,N);
     return 0;
 }
