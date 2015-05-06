@@ -9,8 +9,8 @@
 #include "fft.h"
 int fft(double *x_r, double *x_i, double *y_r, double *y_i, int N){
 	int c;
-	double *u_r, *u_i, *v_r, *v_i ,theta = 2*M_PI/N;
-	double w_r,w_i,w2_r,w2_i;
+	double *u_r, *u_i, *v_r, *v_i ,theta = 2*M_PI/N,theta1;
+	double w_r,w_i,w2_r,w2_i,w_3_r,w_3_i;
 	int n,k,p;
 	u_r= (double *) malloc(N*sizeof(double));
 	u_i= (double *) malloc(N*sizeof(double));
@@ -79,10 +79,21 @@ int fft(double *x_r, double *x_i, double *y_r, double *y_i, int N){
 				w_i = sin(-k*theta);
 				w2_r= pow(w_r,2)-pow(w_i, 2);
 				w2_i= 2*w_r*w_i;
-				p=k%(N/3);
+
+                p=k%(N/3);
+                //p=k;
+                //printf("k=%d",k);
 				//printf("N=%d, v_r[k] =%f,w_r=%f,v_r[k+N/3]=%f ,w_i=%f,v_i[k+N/3]=%f, w2_r=%f,v_r[k+2*N/3]=%f, w2_i=%f,v_i[k+2*N/3]=%f\n", N, v_r[k] ,	w_r,v_r[k+N/3] , w_i,v_i[k+N/3] , w2_r,v_r[k+2*N/3] , w2_i,v_i[k+2*N/3]);
 				y_r[k]	= v_r[p] +	w_r*v_r[p+N/3] - w_i*v_i[p+N/3] + w2_r*v_r[p+2*N/3] - w2_i*v_i[p+2*N/3];
 				y_i[k]	= v_i[p] +	w_r*v_i[p+N/3] + w_i*v_r[p+N/3] + w2_r*v_i[p+2*N/3] + w2_i*v_r[p+2*N/3];
+                
+                //y_r[k+N/3]	= v_r[p+N/3] +	w_r*v_r[p+N/3] - w_i*v_i[p+N/3] + w2_r*v_r[p+2*N/3] - w2_i*v_i[p+2*N/3];
+                //y_i[k+N/3]	= v_i[p+N/3] +	w_r*v_i[p+N/3] + w_i*v_r[p+N/3] + w2_r*v_i[p+2*N/3] + w2_i*v_r[p+2*N/3];
+
+                
+                //y_r[k+2*N/3]    = v_r[p+2*N/3] +	w_r*v_r[p+N/3] - w_i*v_i[p+N/3] + w2_r*v_r[p+2*N/3] - w2_i*v_i[p+2*N/3];
+                //y_i[k+2*N/3]	= v_i[p+2*N/3] +	w_r*v_i[p+N/3] + w_i*v_r[p+N/3] + w2_r*v_i[p+2*N/3] + w2_i*v_r[p+2*N/3];
+
 			}
 			
 			break;
