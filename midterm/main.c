@@ -36,7 +36,7 @@ int main() {
 	printf("input 2^p 3^q 5^r : p q r =>");
 	scanf("%d %d %d", &p,&q,&r);
 	N = 1 << p;
-	N=N*pow(3,q);
+	N=N*pow(3,q)*pow(5, r);
 	printf("N=%d\n",N);
 	
 	x_r = (double *) malloc(N*sizeof(double));
