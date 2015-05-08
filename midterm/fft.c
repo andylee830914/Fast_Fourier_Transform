@@ -24,8 +24,9 @@ int fft(double *x_r, double *x_i, double *y_r, double *y_i, int N){
 	//int k;
     //double t_r, t_i;
     //double t_2r,t_2i;
-    //int p, q, m;
- 
+    int p, q, m=0;
+    int N0,M0;
+    int order[100];
 
 	//termination conditions
 	if(N==1){
@@ -45,24 +46,77 @@ int fft(double *x_r, double *x_i, double *y_r, double *y_i, int N){
         y_i[n] = x_i[n];
     }
     
-    
-    
-    if ((N%2)==0) {
-        bit_reverse(y_r, y_i, N, 2);
-        if ((N%3)==0) {
-            bit_reverse(y_r, y_i, N, 3);
-            butterfly(y_r, y_i, N, 3);
+    N0=N;
+    p=1;
+    while (N0>1) {
+        if ((N0%2)==0) {
+            p=2;
+        }else if ((N0%3)==0){
+            p=3;
+        }else{
+            p=1;
         }
-        butterfly(y_r, y_i, N, 2);
-    }else if ((N%3)==0){
-        bit_reverse(y_r, y_i, N, 3);
-        butterfly(y_r, y_i, N, 3);
-    
+        M0=0;
+        while (M0<N) {
+            
+            groupn(y_r+M0, y_i+M0, N0, p);
+            M0+=N0;
+        }
+        order[m]=p;
+        m++;
+        N0/=p;
     }
     
     
     
-	
+    while (N0<N) {
+        m--;
+        butterfly(y_r, y_i, N, order[m],N0);
+        
+        
+        N0*=order[m];
+    }
+    /*
+     
+    
+    
+    if ((N%2)==0) {
+        //bit_reverse(y_r, y_i, N, 2);
+        
+       // groupn(y_r, y_i, N, 2);
+        if ((N%3)==0) {
+            bit_reverse(y_r, y_i, N/2, 3);
+            bit_reverse(y_r+N/2, y_i+N/2, N/2, 3);
+            //butterfly(y_r, y_i, N, 3);
+        }
+        //butterfly(y_r, y_i, N, 2);
+    }else if ((N%3)==0){
+        bit_reverse(y_r, y_i, N, 3);
+        //butterfly(y_r, y_i, N, 3);
+    
+    }
+    */
+    
+    
+    /*
+    y_r[0]=0;
+    y_r[1]=2;
+    y_r[2]=4;
+    y_r[3]=1;
+    y_r[4]=3;
+    y_r[5]=5;
+
+    y_i[0]=0;
+    y_i[1]=0;
+    y_i[2]=0;
+    y_i[3]=0;
+    y_i[4]=0;
+    y_i[5]=0;
+
+    
+    butterfly(y_r, y_i, 6, 3);
+    butterfly(y_r, y_i, 6, 2);
+	*/
 	return 0;
 }
 
@@ -91,7 +145,7 @@ int bit_reverse(double *y_r, double *y_i, int N,int c){
         
         if(p < q)
         {
-            printf("%d,%d\n",p,q);
+            //printf("%d,%d\n",p,q);
             swap(y_r+p,y_r+q);
             //printf("%d,%d\n\n",p,q);
             swap(y_i+p,y_i+q);
@@ -101,15 +155,17 @@ int bit_reverse(double *y_r, double *y_i, int N,int c){
         {
             q = q-(c-1)*k;
             k =k/c;
+            //printf("%d,%d\n",q,k);
         }
         q = q+k;
+        
     }
     print_complex(y_r, y_i, N);
     return 0;
 }
 
 
-int butterfly(double *y_r, double *y_i, int N,int c){
+int butterfly(double *y_r, double *y_i, int N,int c,int n){
     double theta,theta1;
     double w_r,w_i,wk_r,wk_i;
     int k;
@@ -117,13 +173,13 @@ int butterfly(double *y_r, double *y_i, int N,int c){
     double t_2r,t_2i;
     int p, q,r;
 
-    
+    n=n*c;
     switch( c ){
             
         case 2:
 
-            n = 2;
-            while(n <= N && ((2*N/n)%2)==0){
+            //n = 2;
+            //while(n <= N && ((2*N/n)%2)==0){
                 for(k=0;k<n/2;k++){
                     theta = -2.0*k*M_PI/n;
                     w_r = cos(theta);
@@ -141,15 +197,15 @@ int butterfly(double *y_r, double *y_i, int N,int c){
                     }
                     
                 }
-                n = n * 2;
+                //n = n * 2;
                 
-            }
+            //}
             
             
             break;
         case 3:
-            n = 3;
-            while(n <= N && ((3*N/n)%3)==0){
+            //n = 3;
+            //while(n <= N && ((3*N/n)%3)==0){
                 for(k=0;k<n/3;k++){
                     theta = -2.0*k*M_PI/n;
                     theta1 = -2.0*M_PI/3;
@@ -189,9 +245,9 @@ int butterfly(double *y_r, double *y_i, int N,int c){
                         y_i[p]=y_i[p]+t_i+t_2i;
                     }
                 }
-                n = n * 3;
+                //n = n * 3;
                 
-            }
+            //}
             break;
             
             
@@ -201,4 +257,39 @@ int butterfly(double *y_r, double *y_i, int N,int c){
     
     return 0;
 
+}
+
+
+
+int groupn(double *x_r,double *x_i,int N,int p){
+    int n,m;
+    double *u_r,*u_i;
+    
+    u_r= (double *) malloc(N*sizeof(double));
+    u_i= (double *) malloc(N*sizeof(double));
+
+    
+    for(n=0;n<N/p;n++)
+    {
+        
+        for (m=0; m<p; m++) {
+            u_r[n+m*N/p] = x_r[p*n+m];
+            u_i[n+m*N/p] = x_i[p*n+m];
+
+        }
+    }
+    
+    
+    for(n=0;n<N;n++)
+    {
+        x_r[n] = u_r[n];
+        x_i[n] = u_i[n];
+    }
+    
+    while ((N%p)) {
+        
+    }
+    free(u_r);
+    free(u_i);
+    return 0;
 }
