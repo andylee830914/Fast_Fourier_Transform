@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>4647C433-D62D-44C9-937A-E51232E5A72C</string>
 	<key>IDESourceControlProjectName</key>
-	<string>midterm</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>25D34EEB80B60277EF74140657502E9204F6430D</key>
 		<string>https://github.com/andylee830914/Fast_Algorithm_2015.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>midexam/C14011201/midterm/midterm.xcodeproj</string>
+	<string>midexam/C14011201/midterm/midterm.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>25D34EEB80B60277EF74140657502E9204F6430D</key>

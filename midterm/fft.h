@@ -19,3 +19,5 @@ int fft(double *, double *, double *, double *, int N);
 /* define input x_r,input x_i,output y_r,output y_i, points of doing fft */
 int print_complex(double *, double *, int N);
 void swap(double *,double *);
+int bit_reverse(double *y_r, double *y_i, int N,int c);
+int butterfly(double *y_r, double *y_i, int N,int c);
