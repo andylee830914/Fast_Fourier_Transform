@@ -52,8 +52,9 @@ $$\hat{x}[k]=\sum_{n=0}^{N-1} e^{-i\frac{2\pi}{N}nk}x[n] \qquad k = 0,1,\ldots,N
 	19.598688 secs
 	
 ##參考資料##
-1. 老師的 Github [https://github.com/ycshu/midexam](https://github.com/ycshu/midexam)
-2. Todd D. Mateer, *The Fast Fourier TransformA Mathematical Perspective*, <http://www.math.clemson.edu/~janoski/reu/2008/FFT-book.pdf>
+1. 老師&老師的 Github [https://github.com/ycshu/midexam](https://github.com/ycshu/midexam)
+2. Todd D. Mateer, *The Fast Fourier Transform
+A Mathematical Perspective*, <http://www.math.clemson.edu/~janoski/reu/2008/FFT-book.pdf>
 
 
 
