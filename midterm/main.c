@@ -57,7 +57,7 @@ int main() {
 	t2 = clock();
 	
 	printf("%f secs\n", 1.0*(t2-t1)/CLOCKS_PER_SEC);//print times
-	print_complex(y_r, y_i, N);
+	//print_complex(y_r, y_i, N);
 	//sort(v,N);
     return 0;
 }
