@@ -19,6 +19,8 @@ $$\hat{x}[k]=\sum_{n=0}^{N-1} e^{-i\frac{2\pi}{N}nk}x[n] \qquad k = 0,1,\ldots,N
 ###簡介###
 本程式使用 C 語言實作 radix-2、radix-3、radix-5 的演算法，可用於計算 $N=2^p\times 3^q \times 5^r$ 點的離散傅立葉變換。
 
+註：檔案位於 midterm < /midterm> 資料夾內
+
 ###函數參數###
 ####主要函數####
 
