@@ -51,7 +51,7 @@ $$\hat{x}[k]=\sum_{n=0}^{N-1} e^{-i\frac{2\pi}{N}nk}x[n] \qquad k = 0,1,\ldots,N
 	hello midterm
 	input 2^p 3^q 5^r : p q r =>5 5 5
 	N=24300000
-	19.598688 secs
+	17.514198 secs
 	
 ##參考資料##
 1. 老師&老師的 Github [https://github.com/ycshu/midexam](https://github.com/ycshu/midexam)

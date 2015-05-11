@@ -189,29 +189,24 @@ int butterfly(double *y_r, double *y_i, int N,int c,int n){
                         t_2r= (w_r*w_r-w_i*w_i)*y_r[r]-(w_r*w_i+w_r*w_i)*y_i[r];
                         t_2i= (w_r*w_r-w_i*w_i)*y_i[r]+(w_r*w_i+w_r*w_i)*y_r[r];
                         
-                        
-                        
-                        y_r[r]=y_r[p]
-                        +(wk_r*wk_r-wk_i*wk_i)*t_r-(2*wk_r*wk_i)*t_i
-                        +((wk_r*wk_r-wk_i*wk_i)*(wk_r*wk_r-wk_i*wk_i)-(2*wk_r*wk_i)*(2*wk_r*wk_i))*t_2r-(2*(wk_r*wk_r-wk_i*wk_i)*(2*wk_r*wk_i))*t_2i;
-                        y_i[r]=y_i[p]
-                        +(wk_r*wk_r-wk_i*wk_i)*t_i+(2*wk_r*wk_i)*t_r//wk^2
-                        +((wk_r*wk_r-wk_i*wk_i)*(wk_r*wk_r-wk_i*wk_i)-(2*wk_r*wk_i)*(2*wk_r*wk_i))*t_2i+(2*(wk_r*wk_r-wk_i*wk_i)*(2*wk_r*wk_i))*t_2r;//wk^4
-                        
-                        
-                        y_r[q]=y_r[p]
-                        +wk_r*t_r-wk_i*t_i//wk^1
-                        +(wk_r*wk_r-wk_i*wk_i)*t_2r-(2*wk_r*wk_i)*t_2i;//wk^2
-                        y_i[q]=y_i[p]
-                        +wk_r*t_i+wk_i*t_r
-                        +(wk_r*wk_r-wk_i*wk_i)*t_2i+(2*wk_r*wk_i)*t_2r;
-                        
-                        y_r[p]=y_r[p]+t_r+t_2r;
-                        y_i[p]=y_i[p]+t_i+t_2i;
+						
+						
+						y_r[r]=y_r[p]
+						+wk_r*(t_r+t_2r)+wk_i*(t_i-t_2i);
+						y_i[r]=y_i[p]
+						+wk_r*(t_i+t_2i)-wk_i*(t_r-t_2r);
+						
+						y_r[q]=y_r[p]
+						+wk_r*(t_r+t_2r)-wk_i*(t_i-t_2i);//wk^1
+						y_i[q]=y_i[p]
+						+wk_r*(t_i+t_2i)+wk_i*(t_r-t_2r);
+						
+						y_r[p]=y_r[p]+t_r+t_2r;
+						y_i[p]=y_i[p]+t_i+t_2i;
                     }
                 }
                 //n = n * 3;
-                
+			
             //}
             break;
 		case 5:
@@ -242,48 +237,32 @@ int butterfly(double *y_r, double *y_i, int N,int c,int n){
 					t_4i= ((w_r*w_r-w_i*w_i)*(w_r*w_r-w_i*w_i)-(2*w_r*w_i)*(2*w_r*w_i))*y_i[t]+(2*(w_r*w_r-w_i*w_i)*(2*w_r*w_i))*y_r[t];
 					
 					y_r[t]=y_r[p]
-					+wk_r*t_4r-wk_i*t_4i//wk^1
-					+(wk_r*wk_r-wk_i*wk_i)*t_3r-(2*wk_r*wk_i)*t_3i
-					+(wk_r*wk_r*wk_r-3*wk_r*wk_i*wk_i)*t_2r-(3*wk_r*wk_r*wk_i-wk_i*wk_i*wk_i)*t_2i
-					+((wk_r*wk_r-wk_i*wk_i)*(wk_r*wk_r-wk_i*wk_i)-(2*wk_r*wk_i)*(2*wk_r*wk_i))*t_r-(2*(wk_r*wk_r-wk_i*wk_i)*(2*wk_r*wk_i))*t_i;
+					+wk_r*(t_4r+t_r)-wk_i*(t_4i-t_i)//wk^1
+					+(wk_r*wk_r-wk_i*wk_i)*(t_3r+t_2r)-(2*wk_r*wk_i)*(t_3i-t_2i);
 					y_i[t]=y_i[p]
-					+wk_r*t_4i+wk_i*t_4r
-					+(wk_r*wk_r-wk_i*wk_i)*t_3i+(2*wk_r*wk_i)*t_3r
-					+(wk_r*wk_r*wk_r-3*wk_r*wk_i*wk_i)*t_2i+(3*wk_r*wk_r*wk_i-wk_i*wk_i*wk_i)*t_2r
-					+((wk_r*wk_r-wk_i*wk_i)*(wk_r*wk_r-wk_i*wk_i)-(2*wk_r*wk_i)*(2*wk_r*wk_i))*t_i+(2*(wk_r*wk_r-wk_i*wk_i)*(2*wk_r*wk_i))*t_r;
+					+wk_r*(t_4i+t_i)+wk_i*(t_4r-t_r)
+					+(wk_r*wk_r-wk_i*wk_i)*(t_3i+t_2i)+(2*wk_r*wk_i)*(t_3r-t_2r);
 					
 					y_r[s]=y_r[p]
-					+wk_r*t_2r-wk_i*t_2i//wk^1
-					+(wk_r*wk_r-wk_i*wk_i)*t_4r-(2*wk_r*wk_i)*t_4i
-					+(wk_r*wk_r*wk_r-3*wk_r*wk_i*wk_i)*t_r-(3*wk_r*wk_r*wk_i-wk_i*wk_i*wk_i)*t_i
-					+((wk_r*wk_r-wk_i*wk_i)*(wk_r*wk_r-wk_i*wk_i)-(2*wk_r*wk_i)*(2*wk_r*wk_i))*t_3r-(2*(wk_r*wk_r-wk_i*wk_i)*(2*wk_r*wk_i))*t_3i;
+					+wk_r*(t_2r+t_3r)-wk_i*(t_2i-t_3i)//wk^1
+					+(wk_r*wk_r-wk_i*wk_i)*(t_4r+t_r)-(2*wk_r*wk_i)*(t_4i-t_i);
 					y_i[s]=y_i[p]
-					+wk_r*t_2i+wk_i*t_2r
-					+(wk_r*wk_r-wk_i*wk_i)*t_4i+(2*wk_r*wk_i)*t_4r
-					+(wk_r*wk_r*wk_r-3*wk_r*wk_i*wk_i)*t_i+(3*wk_r*wk_r*wk_i-wk_i*wk_i*wk_i)*t_r
-					+((wk_r*wk_r-wk_i*wk_i)*(wk_r*wk_r-wk_i*wk_i)-(2*wk_r*wk_i)*(2*wk_r*wk_i))*t_3i+(2*(wk_r*wk_r-wk_i*wk_i)*(2*wk_r*wk_i))*t_3r;
+					+wk_r*(t_2i+t_3i)+wk_i*(t_2r-t_3r)
+					+(wk_r*wk_r-wk_i*wk_i)*(t_4i+t_i)+(2*wk_r*wk_i)*(t_4r-t_r);
 					
 					y_r[r]=y_r[p]
-					+(wk_r*wk_r-wk_i*wk_i)*t_r-(2*wk_r*wk_i)*t_i
-					+((wk_r*wk_r-wk_i*wk_i)*(wk_r*wk_r-wk_i*wk_i)-(2*wk_r*wk_i)*(2*wk_r*wk_i))*t_2r-(2*(wk_r*wk_r-wk_i*wk_i)*(2*wk_r*wk_i))*t_2i
-					+wk_r*t_3r-wk_i*t_3i
-					+(wk_r*wk_r*wk_r-3*wk_r*wk_i*wk_i)*t_4r-(3*wk_r*wk_r*wk_i-wk_i*wk_i*wk_i)*t_4i;
+					+wk_r*(t_3r+t_2r)-wk_i*(t_3i-t_2i)//wk^1
+					+(wk_r*wk_r-wk_i*wk_i)*(t_r+t_4r)-(2*wk_r*wk_i)*(t_i-t_4i);
 					y_i[r]=y_i[p]
-					+(wk_r*wk_r-wk_i*wk_i)*t_i+(2*wk_r*wk_i)*t_r//wk^2
-					+((wk_r*wk_r-wk_i*wk_i)*(wk_r*wk_r-wk_i*wk_i)-(2*wk_r*wk_i)*(2*wk_r*wk_i))*t_2i+(2*(wk_r*wk_r-wk_i*wk_i)*(2*wk_r*wk_i))*t_2r
-					+wk_r*t_3i+wk_i*t_3r
-					+(wk_r*wk_r*wk_r-3*wk_r*wk_i*wk_i)*t_4i+(3*wk_r*wk_r*wk_i-wk_i*wk_i*wk_i)*t_4r;
-					
+					+wk_r*(t_3i+t_2i)+wk_i*(t_3r-t_2r)
+					+(wk_r*wk_r-wk_i*wk_i)*(t_i+t_4i)+(2*wk_r*wk_i)*(t_r-t_4r);
 					
 					y_r[q]=y_r[p]
-					+wk_r*t_r-wk_i*t_i//wk^1
-					+(wk_r*wk_r-wk_i*wk_i)*t_2r-(2*wk_r*wk_i)*t_2i
-					+(wk_r*wk_r*wk_r-3*wk_r*wk_i*wk_i)*t_3r-(3*wk_r*wk_r*wk_i-wk_i*wk_i*wk_i)*t_3i
-					+((wk_r*wk_r-wk_i*wk_i)*(wk_r*wk_r-wk_i*wk_i)-(2*wk_r*wk_i)*(2*wk_r*wk_i))*t_4r-(2*(wk_r*wk_r-wk_i*wk_i)*(2*wk_r*wk_i))*t_4i;
+					+wk_r*(t_r+t_4r)-wk_i*(t_i-t_4i)//wk^1
+					+(wk_r*wk_r-wk_i*wk_i)*(t_2r+t_3r)-(2*wk_r*wk_i)*(t_2i-t_3i);
 					y_i[q]=y_i[p]
-					+wk_r*t_i+wk_i*t_r
-					+(wk_r*wk_r-wk_i*wk_i)*t_2i+(2*wk_r*wk_i)*t_2r+(wk_r*wk_r*wk_r-3*wk_r*wk_i*wk_i)*t_3i+(3*wk_r*wk_r*wk_i-wk_i*wk_i*wk_i)*t_3r
-					+((wk_r*wk_r-wk_i*wk_i)*(wk_r*wk_r-wk_i*wk_i)-(2*wk_r*wk_i)*(2*wk_r*wk_i))*t_4i+(2*(wk_r*wk_r-wk_i*wk_i)*(2*wk_r*wk_i))*t_4r;
+					+wk_r*(t_i+t_4i)+wk_i*(t_r-t_4r)
+					+(wk_r*wk_r-wk_i*wk_i)*(t_2i+t_3i)+(2*wk_r*wk_i)*(t_2r-t_3r);
 					
 					y_r[p]=y_r[p]+t_r+t_2r+t_3r+t_4r;
 					y_i[p]=y_i[p]+t_i+t_2i+t_3i+t_4i;
