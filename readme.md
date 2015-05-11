@@ -23,8 +23,9 @@ $$\hat{x}[k]=\sum_{n=0}^{N-1} e^{-i\frac{2\pi}{N}nk}x[n] \qquad k = 0,1,\ldots,N
 
 ###函數參數###
 ####主要函數####
-
-	int fft(double *x_r, double *x_i, double *y_r, double *y_i, int N)
+````C
+int fft(double *x_r, double *x_i, double *y_r, double *y_i, int N)
+````
 ####參數說明####
 
 	*x_r：初始序列實部
@@ -44,15 +45,17 @@ $$\hat{x}[k]=\sum_{n=0}^{N-1} e^{-i\frac{2\pi}{N}nk}x[n] \qquad k = 0,1,\ldots,N
 <br>作業系統：Mac OSX Yosemite 10.10.4
 <br>開發環境：Xcode Version 6.3.1 
 ####編譯####
-	$ gcc -lm main.c fft.c -o fft
-	
+````Shell
+$ gcc -lm main.c fft.c -o fft
+````
 ####執行與輸出####
-	$ ./fft
-	hello midterm
-	input 2^p 3^q 5^r : p q r =>5 5 5
-	N=24300000
-	17.514198 secs
-	
+````Shell
+$ ./fft
+hello midterm
+input 2^p 3^q 5^r : p q r =>5 5 5
+N=24300000
+17.514198 secs
+````	
 ##參考資料##
 1. 老師&老師的 Github [https://github.com/ycshu/midexam](https://github.com/ycshu/midexam)
 2. Todd D. Mateer, *The Fast Fourier Transform
