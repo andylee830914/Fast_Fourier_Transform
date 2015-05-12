@@ -171,13 +171,13 @@ int butterfly(double *y_r, double *y_i, int N,int c,int n){
         case 3:
             //n = 3;
             //while(n <= N && ((3*N/n)%3)==0){
+			theta1 = -2.0*M_PI/3;
+			wk_r= cos(theta1);
+			wk_i= sin(theta1);
                 for(k=0;k<n/3;k++){
                     theta = -2.0*k*M_PI/n;
-                    theta1 = -2.0*M_PI/3;
                     w_r = cos(theta);
                     w_i = sin(theta);
-                    wk_r= cos(theta1);
-                    wk_i= sin(theta1);
                     //printf("n=%d,w=%f+%f,w2=%f+%f\n",n,w_r,w_i,wk_r,wk_i);
                     
                     for(p=k;p<N;p+=n)
@@ -212,13 +212,14 @@ int butterfly(double *y_r, double *y_i, int N,int c,int n){
 		case 5:
 			//n = 3;
 			//while(n <= N && ((3*N/n)%3)==0){
+			theta1 = -2.0*M_PI/5;
+			wk_r= cos(theta1);
+			wk_i= sin(theta1);
 			for(k=0;k<n/5;k++){
 				theta = -2.0*k*M_PI/n;
-				theta1 = -2.0*M_PI/5;
 				w_r = cos(theta);
 				w_i = sin(theta);
-				wk_r= cos(theta1);
-				wk_i= sin(theta1);
+				
 				//printf("n=%d,w=%f+%f,w2=%f+%f\n",n,w_r,w_i,wk_r,wk_i);
 				
 				for(p=k;p<N;p+=n)
@@ -310,9 +311,6 @@ int groupn(double *x_r,double *x_i,int N,int p){
         x_i[n] = u_i[n];
     }
 	
-    while ((N%p)) {
-		
-    }
     free(u_r);
     free(u_i);
     return 0;
