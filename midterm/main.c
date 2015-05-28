@@ -39,10 +39,10 @@ int main() {
 	N=N*pow(3,q)*pow(5, r);
 	printf("N=%d\n",N);
 	
-	x_r = (double *) malloc(N*sizeof(double));
-	x_i = (double *) malloc(N*sizeof(double));
-	y_r = (double *) malloc(N*sizeof(double));
-	y_i = (double *) malloc(N*sizeof(double));
+	x_r = (double *) malloc(4*N*sizeof(double));
+	x_i = (double *) malloc(4*N*sizeof(double));
+	y_r = (double *) malloc(4*N*sizeof(double));
+	y_i = (double *) malloc(4*N*sizeof(double));
 	
 	//initial data
 	for(n=0;n<N;++n)
@@ -52,7 +52,9 @@ int main() {
 	}
 	
 	t1 = clock();
-	fft(x_r, x_i, y_r, y_i, N);
+	reorder(x_r, x_i, N);
+	fft(x_r, x_i, y_r, y_i, 4*N);
+	scale(y_r, y_i,N);
 	//
 	t2 = clock();
 	

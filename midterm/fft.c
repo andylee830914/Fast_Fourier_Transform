@@ -315,3 +315,45 @@ int groupn(double *x_r,double *x_i,int N,int p){
     free(u_i);
     return 0;
 }
+
+
+
+int reorder(double *x_r,double *x_i,int N){
+	int i,n;
+	double *u_r,*u_i;
+	u_r= (double *) malloc(4*N*sizeof(double));
+	u_i= (double *) malloc(4*N*sizeof(double));
+
+	for (i=0; i<N; i++) {
+		u_r[2*i+1]=x_r[i];
+		u_i[2*i+1]=x_i[i];
+	}
+	for(n=0;n<4*N;n++){
+		if ((n%2==0)) {
+			u_r[n]=0;
+			u_i[n]=0;
+		}
+		x_r[n] = u_r[n];
+		x_i[n] = u_i[n];
+	}
+	
+	free(u_r);
+	free(u_i);
+	
+	
+	return 0;
+}
+
+
+int scale(double *x_r,double *x_i,int N){
+	int i;
+	x_r[0]=x_r[0]/sqrt(N);
+	x_i[0]=0;
+	for (i=1; i<N; i++) {
+		x_r[i]=x_r[i]*sqrt(2.0/N);
+		x_i[i]=0;
+	}
+	
+	
+	return 0;
+}

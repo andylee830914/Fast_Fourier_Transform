@@ -22,3 +22,5 @@ void swap(double *,double *);
 int bit_reverse(double *y_r, double *y_i, int N,int c);
 int butterfly(double *y_r, double *y_i, int N,int c,int);
 int groupn(double *x_r,double *x_i,int N,int p);
+int reorder(double *x_r,double *x_i,int N);
+int scale(double *x_r,double *x_i,int N);
