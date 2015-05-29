@@ -19,7 +19,7 @@ int main() {
 	int n, p,q,r;
 	double *y_r, *y_i, *x_r, *x_i;
 	clock_t t1, t2;
-    printf("hello midterm \n");
+    printf("hello midterm :DST \n");
 	
 	/*
 	srand(time(NULL));
@@ -39,21 +39,22 @@ int main() {
 	N=N*pow(3,q)*pow(5, r);
 	printf("N=%d\n",N);
 	
-	x_r = (double *) malloc(N*sizeof(double));
-	x_i = (double *) malloc(N*sizeof(double));
-	y_r = (double *) malloc(N*sizeof(double));
-	y_i = (double *) malloc(N*sizeof(double));
+	x_r = (double *) malloc((2*N+2)*sizeof(double));
+	x_i = (double *) malloc((2*N+2)*sizeof(double));
+	y_r = (double *) malloc((2*N+2)*sizeof(double));
+	y_i = (double *) malloc((2*N+2)*sizeof(double));
 	
 	//initial data
 	for(n=0;n<N;++n)
 	{
-		x_r[n] = n;
-		x_i[n] = 0;
+		x_r[n] = 0;
+		x_i[n] = n;
 	}
 	
 	t1 = clock();
-	fft(x_r, x_i, y_r, y_i, N);
-	//
+	reorder(x_r, x_i, N);
+	fft(x_r, x_i, y_r, y_i, 2*(N+1));
+	scale(y_r, y_i,N);
 	t2 = clock();
 	
 	printf("%f secs\n", 1.0*(t2-t1)/CLOCKS_PER_SEC);//print times

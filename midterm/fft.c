@@ -26,7 +26,7 @@ int fft(double *x_r, double *x_i, double *y_r, double *y_i, int N){
     //double t_2r,t_2i;
     int n,p, m=0;
     int N0,M0;
-    int order[100];
+    int order[1000];
 
 	//termination conditions
 	if(N==1){
@@ -146,7 +146,7 @@ int butterfly(double *y_r, double *y_i, int N,int c,int n){
             //n = 2;
             //while(n <= N && ((2*N/n)%2)==0){
                 for(k=0;k<n/2;k++){
-                    theta = -2.0*k*M_PI/n;
+                    theta = -2.0*(k+1)*M_PI/n;
                     w_r = cos(theta);
                     w_i = sin(theta);
                     
@@ -175,7 +175,7 @@ int butterfly(double *y_r, double *y_i, int N,int c,int n){
 			wk_r= cos(theta1);
 			wk_i= sin(theta1);
                 for(k=0;k<n/3;k++){
-                    theta = -2.0*k*M_PI/n;
+                    theta = -2.0*(k+1)*M_PI/n;
                     w_r = cos(theta);
                     w_i = sin(theta);
                     //printf("n=%d,w=%f+%f,w2=%f+%f\n",n,w_r,w_i,wk_r,wk_i);
@@ -216,7 +216,7 @@ int butterfly(double *y_r, double *y_i, int N,int c,int n){
 			wk_r= cos(theta1);
 			wk_i= sin(theta1);
 			for(k=0;k<n/5;k++){
-				theta = -2.0*k*M_PI/n;
+				theta = -2.0*(k+1)*M_PI/n;
 				w_r = cos(theta);
 				w_i = sin(theta);
 				
@@ -314,4 +314,40 @@ int groupn(double *x_r,double *x_i,int N,int p){
     free(u_r);
     free(u_i);
     return 0;
+}
+
+int reorder(double *x_r,double *x_i,int N){
+	int i,n;
+	double *u_r,*u_i;
+	u_r= (double *) malloc(2*(N+1)*sizeof(double));
+	u_i= (double *) malloc(2*(N+1)*sizeof(double));
+	//print_complex(x_r, x_i, N);
+	for (i=0; i<N; i++) {
+		u_r[i+1]=x_r[i];
+		u_i[i+1]=x_i[i];
+	}
+	for(n=0;n<2*N+2;n++){
+		
+		x_r[n] = u_r[n];
+		x_i[n] = u_i[n];
+	}
+	
+	free(u_r);
+	free(u_i);
+	//print_complex(x_r, x_i, N+1);
+	
+	return 0;
+}
+
+int scale(double *x_r,double *x_i,int N){
+	int i;
+	x_r[0]=x_r[0];
+	x_i[0]=0;
+	for (i=1; i<N; i++) {
+		x_r[i]=x_r[i];
+		x_i[i]=0;
+	}
+	
+	
+	return 0;
 }
