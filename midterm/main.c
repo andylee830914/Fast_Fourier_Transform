@@ -19,7 +19,7 @@ int main() {
 	int n, p,q,r;
 	double *y_r, *y_i, *x_r, *x_i;
 	clock_t t1, t2;
-    printf("hello midterm \n");
+    printf("hello midterm :DCT\n");
 	
 	/*
 	srand(time(NULL));
