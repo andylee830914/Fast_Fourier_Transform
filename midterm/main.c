@@ -53,6 +53,7 @@ int main() {
 	
 	t1 = clock();
 	fft(x_r, x_i, y_r, y_i, N);
+	ifft(y_r, y_i, y_r, y_i, N);
 	//
 	t2 = clock();
 	
