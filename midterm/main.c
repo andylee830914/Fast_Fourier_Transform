@@ -14,7 +14,7 @@
 #include "fft.h"
 #define  MAXCHAR 400
 
-int Char2Int(char *a, long N){
+int Char2Int(char *a, int N){
     int i;
     for(i=0; i<N; i++){
         a[i] -= 48;
@@ -22,7 +22,7 @@ int Char2Int(char *a, long N){
     
     return 0;
 }
-int Int2Char(char *a, long N){
+int Int2Char(char *a, int N){
     int i;
     for(i=0; i<N; i++){
         a[i] += 48;
@@ -32,7 +32,7 @@ int Int2Char(char *a, long N){
     return 0;
 }
 
-int Reverse(char *a, long N){
+int Reverse(char *a, int N){
     int i;
     char temp;
     for (i=0; i<N/2; i++) {
@@ -44,21 +44,13 @@ int Reverse(char *a, long N){
     return 0;
 }
 
-int print_array(int *r, long N){
-    int n;
-    for(n=0;n<N;++n)
-    {
-        printf("%d\n",r[n]);
-    }
-    printf("\n");
-    return 0;
-}
+
 
 int main() {
 	int N,i;
 	char *a,*b,*c;
 	int *y_1, *y_2, *x_1, *x_2,*result;
-    long length_a,length_b;
+    int length_a,length_b;
 	clock_t t1, t2;
     a = (char *) malloc(MAXCHAR*sizeof(char));
     b = (char *) malloc(MAXCHAR*sizeof(char));
@@ -76,8 +68,8 @@ int main() {
 	x_2 = (int *) malloc(MAXCHAR*sizeof(int));//fft out x
 	y_1 = (int *) malloc(MAXCHAR*sizeof(int));//initial y
 	y_2 = (int *) malloc(MAXCHAR*sizeof(int));//fft out y
-    length_a = strlen(a);
-    length_b = strlen(b);
+    length_a = (int)strlen(a);
+    length_b = (int)strlen(b);
     Reverse(a,length_a);
     Reverse(b,length_b);
     Char2Int(a, length_a);
@@ -90,8 +82,12 @@ int main() {
     for (i=0; i<length_b; i++) {
         y_1[i]=b[i];
     }
-    //print_array(x_1, length_a);
-    //print_array(y_1, length_b);
+    fft(x_1, x_2,  length_a);
+    ifft(x_2, x_2,  length_a);
+    //fft(y_1, y_2,  length_b);
+    //ifft(y_2, y_2,  length_b);
+    print_array(x_2, length_a);
+    //print_array(y_2, length_b);
 	/*
 	
 	

@@ -43,7 +43,7 @@ int fft(int *x_r,int *y_r, int N){
     {
         y_r[n] = x_r[n];
     }
-    
+    //print_array(y_r, N);
     N0=N;
     p=1;
     while (N0>1) {
@@ -83,7 +83,7 @@ int fft(int *x_r,int *y_r, int N){
 
 
 
-int print_array(int *r, long N){
+int print_array(int *r, int N){
 	int n;
 	for(n=0;n<N;++n)
 	{
@@ -94,7 +94,8 @@ int print_array(int *r, long N){
 }
 
 int bit_reverse(int *y_r, int *y_i, int N,int c){
-    int m,p,q,k;
+    int m,q;
+    int p,k;
     m = N/c;
     q = m;
     for(p=1;p<N-1;++p)
@@ -123,46 +124,47 @@ int bit_reverse(int *y_r, int *y_i, int N,int c){
 
 
 int butterfly(int *y_r, int N,int c,int n){
-    int theta,theta1;
-    int w_r,w_i,wk_r,wk_i;
-    int k;
-    int t_r, t_i;
-    int t_2r,t_2i;
-	int t_3r,t_3i;
-	int t_4r,t_4i;
-    int p, q,r,s,t;
+    int w_0=31,prime=409;
+    w_0=Inverse_Zp(w_0,prime);
+    int w_r;
+    int i,j,k;
+    int t_r;
+    int p, q;
 
     n=n*c;
+    
+    
     switch( c ){
             
         case 2:
 
-            //n = 2;
-            //while(n <= N && ((2*N/n)%2)==0){
+            w_r=1;
+            printf("n=%d\n",n);
+           
+                for (j=0; j<(N/(2*n)); j++) {
+                    w_0=(w_0*w_0)%prime;
+                }
+            
+            
                 for(k=0;k<n/2;k++){
-                    theta = -2.0*k*M_PI/n;
-                    w_r = cos(theta);
-                    w_i = sin(theta);
-                    
+
+                    for (i=0; i<k; i+=n) {
+                        w_r=(w_r*w_0)%prime;
+                    }
+
+                    printf("w_r=%d\n",w_r);
                     for(p=k;p<N;p+=n){
                         q = p+n/2;
-                        t_r = w_r*y_r[q]-w_i*y_i[q];
-                        t_i = w_r*y_i[q]+w_i*y_r[q];
-                        y_r[q] = y_r[p] - t_r;
-                        y_i[q] = y_i[p] - t_i;
-                        y_r[p] = y_r[p] + t_r;
-                        y_i[p] = y_i[p] + t_i;
-                        
+                        t_r = (w_r*y_r[q])%prime;
+                        y_r[q] = (y_r[p] + (prime-1)*t_r)%prime;
+                        y_r[p] = (y_r[p] + t_r)%prime;
                     }
                     
+                    
                 }
-                //n = n * 2;
-                
-            //}
-            
             
             break;
-            //print_complex(y_r, y_i, N);
+            
 			
     }
 	
@@ -201,12 +203,6 @@ int groupn(int *x_r,int N,int p){
 
 
 int ifft(int *x_r, int *y_r, int N){
-	//int c;
-	//int theta,theta1;
-	//int w_r,w_i,wk_r,wk_i;
-	//int k;
-	//int t_r, t_i;
-	//int t_2r,t_2i;
 	int n,p, m=0;
 	int N0,M0;
 	int order[100];
@@ -268,46 +264,52 @@ int ifft(int *x_r, int *y_r, int N){
 	
 	return 0;
 }
+int Inverse_Zp(int w, int p)
+{
+    int k, w0 = w;
+    for(k=1;k<p;++k)
+    {
+        if((w*w0) % p == 1)
+            break;
+        w = (w*w0) % p;
+    }
+    return w;
+}
 
 int ibutterfly(int *y_r, int N,int c,int n){
-	int theta,theta1;
-	int w_r,w_i,wk_r,wk_i;
-	int k;
-	int t_r, t_i;
-	int t_2r,t_2i;
-	int t_3r,t_3i;
-	int t_4r,t_4i;
-	int p, q,r,s,t;
+    int w_0=31,prime=409;
+    int w_r;
+	int i,j,k;
+	int t_r;
+	int p, q;
 	
 	n=n*c;
 	switch( c ){
 			
 		case 2:
 			
-			//n = 2;
-			//while(n <= N && ((2*N/n)%2)==0){
-			for(k=0;k<n/2;k++){
-				theta = 2.0*k*M_PI/n;
-				w_r = cos(theta);
-				w_i = sin(theta);
-				
-				for(p=k;p<N;p+=n){
-					q = p+n/2;
-					t_r = w_r*y_r[q]-w_i*y_i[q];
-					t_i = w_r*y_i[q]+w_i*y_r[q];
-					y_r[q] = y_r[p] - t_r;
-					y_i[q] = y_i[p] - t_i;
-					y_r[p] = y_r[p] + t_r;
-					y_i[p] = y_i[p] + t_i;
-					
-				}
-				
-			}
-			//n = n * 2;
-			
-			//}
-			
-			
+            w_r=1;
+            printf("n=%d\n",n);
+            
+            for (j=0; j<(N/(2*n)); j++) {
+                w_0=(w_0*w_0)%prime;
+            }
+            
+            for(k=0;k<n/2;k++){
+                
+                for (i=0; i<k; i+=n) {
+                    w_r=(w_r*w_0)%prime;
+                }
+                for(p=k;p<N;p+=n){
+                    q = p+n/2;
+                    t_r = (w_r*y_r[q])%prime;
+                    y_r[q] = (y_r[p] + (prime-1)*t_r)%prime;
+                    y_r[p] = (y_r[p] + t_r)%prime;
+                    
+                }
+                
+                
+            }
 			break;
     }
 	
