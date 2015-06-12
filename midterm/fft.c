@@ -139,7 +139,7 @@ int butterfly(int *y_r, int N,int c,int n){
         case 2:
 
             w_r=1;
-            printf("n=%d\n",n);
+            
            
                 for (j=0; j<(N/(2*n)); j++) {
                     w_0=(w_0*w_0)%prime;
@@ -152,7 +152,7 @@ int butterfly(int *y_r, int N,int c,int n){
                         w_r=(w_r*w_0)%prime;
                     }
 
-                    printf("w_r=%d\n",w_r);
+                    
                     for(p=k;p<N;p+=n){
                         q = p+n/2;
                         t_r = (w_r*y_r[q])%prime;
@@ -256,11 +256,6 @@ int ifft(int *x_r, int *y_r, int N){
 		N0*=order[m];
 	}
 	
-	for(n=0;n<N;++n)
-	{
-		y_r[n] = y_r[n]/N;
-	}
-	
 	
 	return 0;
 }
@@ -289,7 +284,7 @@ int ibutterfly(int *y_r, int N,int c,int n){
 		case 2:
 			
             w_r=1;
-            printf("n=%d\n",n);
+            
             
             for (j=0; j<(N/(2*n)); j++) {
                 w_0=(w_0*w_0)%prime;

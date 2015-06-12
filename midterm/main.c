@@ -47,7 +47,7 @@ int Reverse(char *a, int N){
 
 
 int main() {
-	int N,i;
+	int N,N1,i,Ninv;
 	char *a,*b,*c;
 	int *y_1, *y_2, *x_1, *x_2,*result;
     int length_a,length_b;
@@ -83,12 +83,34 @@ int main() {
         y_1[i]=b[i];
     }
     fft(x_1, x_2,  length_a);
-    ifft(x_2, x_2,  length_a);
-    //fft(y_1, y_2,  length_b);
-    //ifft(y_2, y_2,  length_b);
-    print_array(x_2, length_a);
+    //ifft(x_2, x_2,  length_a);
+    fft(y_1, y_2,  length_b);
     //print_array(y_2, length_b);
-	/*
+    //ifft(y_2, y_2,  length_b);
+    
+    if (length_a>length_b) {
+        N1=length_a;
+    }else{
+        N1=length_b;
+    }
+    N=1;
+    while(N<2*N1){
+        N <<=1;
+    }
+    N=N/2;
+    //print_array(x_2, N1);
+    //print_array(y_2, N1);
+    for(i=0;i<N1;++i){
+        x_2[i] = ((x_2[i]*y_2[i]*358)%409);
+    }
+    ifft(x_2, x_2, N1);
+    for(i=0;i<N1-1;++i){
+        x_2[i+1] += x_2[i]/10;
+        x_2[i] = x_2[i] % 10;
+    }
+    //Ninv = Inverse_Zp(N,409);
+    print_array(x_2, N);
+    /*
 	
 	
 	t1 = clock();
@@ -102,12 +124,12 @@ int main() {
 	
 	printf("%f secs\n", 1.0*(t2-t1)/CLOCKS_PER_SEC);//print times
     print_array(result, N);
-	
+	*/
 	free(x_1);
 	free(x_2);
 	free(y_1);
 	free(y_2);
 	//sort(v,N);
     return 0;
-     */
+    
 }
