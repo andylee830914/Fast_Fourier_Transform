@@ -44,12 +44,63 @@ int Reverse(char *a, int N){
     return 0;
 }
 
+int Order(int w, int p)
+{
+    int k, w0 = w;
+    for(k=1;k<p;++k)
+    {
+        if(w % p == 1)
+            break;
+        w = (w*w0) % p;
+    }
+    return k;
+}
+
+int isPrime(int prime) {
+    int i;
+    for (i=2; i*i<=prime; i++) {
+        if ((prime % i) == 0) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int Parameter_Finder(int N,int *prime, int *omega){
+    int p,n,find_w;
+    p=81*(N/2)+1;
+    while(1){
+        if(isPrime(p)==1){
+            if( (p - 1) % N == 0){
+                find_w = 0;
+                for(n=2;n<p;++n){
+                    if(Order(n,p)==N){
+                        find_w = 1;
+                        break;
+                    }
+                }
+                if(find_w == 1) break;
+            }
+        }
+        p += 2;
+    }
+    
+    *prime=p;
+    *omega=n;
+    
+    printf("N=%d,prime=%d,omega=%d\n",N,p,n);
+    
+    
+    return 0;
+}
+
 
 
 int main() {
-	int N,length,i,Ninv,prime,W;
+	int N,length,i,prime,W;
+    long Ninv;
 	char *a,*b,*c;
-	int *y_1, *y_2, *x_1, *x_2,*result;
+	long *y_1, *y_2, *x_1, *x_2;
     int length_a,length_b;
 	clock_t t1, t2;
     a = (char *) malloc(MAXCHAR*sizeof(char));
@@ -65,10 +116,10 @@ int main() {
     printf("%s * %s = ", a, b);
 
     
-	x_1 = (int *) malloc(MAXCHAR*sizeof(int));//initial x
-	x_2 = (int *) malloc(MAXCHAR*sizeof(int));//fft out x
-	y_1 = (int *) malloc(MAXCHAR*sizeof(int));//initial y
-	y_2 = (int *) malloc(MAXCHAR*sizeof(int));//fft out y
+	x_1 = (long *) malloc(MAXCHAR*sizeof(long));//initial x
+	x_2 = (long *) malloc(MAXCHAR*sizeof(long));//fft out x
+	y_1 = (long *) malloc(MAXCHAR*sizeof(long));//initial y
+	y_2 = (long *) malloc(MAXCHAR*sizeof(long));//fft out y
     length_a = (int)strlen(a);
     length_b = (int)strlen(b);
     Reverse(a,length_a);
@@ -86,31 +137,36 @@ int main() {
         N <<=1;
     }
     //initial parameter
-    prime=409;
-    W=31;
-    N=8;
+    Parameter_Finder(N,&prime,&W);
+    /*N=32;
+    prime=1409;
+    W=10;*/
     Ninv = Inverse_Zp(N,prime);
     
     for (i=0; i<N; i++) {
         x_1[i]=a[i];
-        if (i>length_a) {
-            a[i]=0;
+        if (i>=length_a) {
+            x_1[i]=0;
         }
     }
     for (i=0; i<N; i++) {
         y_1[i]=b[i];
-        if (i>length_b) {
-            b[i]=0;
+        if (i>=length_b) {
+            y_1[i]=0;
         }
     }
 
     t1 = clock();
+    //print_array(x_1, N);
     fft(x_1, x_2,N,prime,W);
+    print_array(x_2, N);
     fft(y_1, y_2,N,prime,W);
+    print_array(y_2, N);
 
     for(i=0;i<N;++i){
-        x_2[i] = ((x_2[i]*y_2[i]%prime*Ninv)%prime);
+        x_2[i] = (((x_2[i]%prime)*(y_2[i]%prime)*Ninv)%prime);
     }
+    print_array(x_2, N);
     ifft(x_2, x_2, N,prime,W);
     for(i=0;i<N;++i){
         x_2[i+1] += x_2[i]/10;
