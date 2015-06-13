@@ -49,16 +49,11 @@ int fft(int *x_r,int *y_r, int N,int prime,int W){
     while (N0>1) {
         if ((N0%2)==0) {
             p=2;
-        }else if ((N0%3)==0){
-            p=3;
-		}else if ((N0%5)==0){
-			p=5;
-		}else{
+        }else{
             p=1;
         }
         M0=0;
         while (M0<N) {
-            
             groupn(y_r+M0, N0, p);
             M0+=N0;
         }
@@ -72,8 +67,6 @@ int fft(int *x_r,int *y_r, int N,int prime,int W){
     while (N0<N) {
         m--;
         butterfly(y_r, N, order[m],N0,prime,W);
-        
-        
         N0*=order[m];
     }
 	
@@ -148,39 +141,25 @@ int butterfly(int *y_r, int N,int c,int n,int prime,int w_0){
     int i,j,k;
     int t_r;
     int p, q;
-
     n=n*c;
-    
-    
     switch( c ){
             
         case 2:
-
             w_r=1;
-            
-           
                 for (j=0; j<(N/(2*n)); j++) {
                     w_0=(w_0*w_0)%prime;
                 }
-            
-            
                 for(k=0;k<n/2;k++){
-
                     for (i=0; i<k; i+=n) {
                         w_r=(w_r*w_0)%prime;
                     }
-
-                    
                     for(p=k;p<N;p+=n){
                         q = p+n/2;
                         t_r = (w_r*y_r[q])%prime;
                         y_r[q] = (y_r[p] + (prime-1)*t_r)%prime;
                         y_r[p] = (y_r[p] + t_r)%prime;
                     }
-                    
-                    
                 }
-            
             break;
             
 			
@@ -207,8 +186,6 @@ int groupn(int *x_r,int N,int p){
 
         }
     }
-	
-	
     for(n=0;n<N;n++)
     {
         x_r[n] = u_r[n];
@@ -233,9 +210,6 @@ int ifft(int *x_r, int *y_r, int N,int prime,int W){
 		return 0;
 	}
 	
-	
-	
-	
 	for(n=0;n<N;++n)
 	{
 		y_r[n] = x_r[n];
@@ -246,16 +220,11 @@ int ifft(int *x_r, int *y_r, int N,int prime,int W){
 	while (N0>1) {
 		if ((N0%2)==0) {
 			p=2;
-		}else if ((N0%3)==0){
-			p=3;
-		}else if ((N0%5)==0){
-			p=5;
 		}else{
 			p=1;
 		}
 		M0=0;
 		while (M0<N) {
-			
 			groupn(y_r+M0, N0, p);
 			M0+=N0;
 		}
@@ -269,8 +238,6 @@ int ifft(int *x_r, int *y_r, int N,int prime,int W){
 	while (N0<N) {
 		m--;
 		ibutterfly(y_r, N, order[m],N0,prime,W);
-		
-		
 		N0*=order[m];
 	}
 	
@@ -299,14 +266,10 @@ int ibutterfly(int *y_r, int N,int c,int n,int prime,int w_0){
 	switch( c ){
 			
 		case 2:
-			
             w_r=1;
-            
-            
             for (j=0; j<(N/(2*n)); j++) {
                 w_0=(w_0*w_0)%prime;
             }
-            
             for(k=0;k<n/2;k++){
                 
                 for (i=0; i<k; i+=n) {
@@ -317,10 +280,7 @@ int ibutterfly(int *y_r, int N,int c,int n,int prime,int w_0){
                     t_r = (w_r*y_r[q])%prime;
                     y_r[q] = (y_r[p] + (prime-1)*t_r)%prime;
                     y_r[p] = (y_r[p] + t_r)%prime;
-                    
                 }
-                
-                
             }
 			break;
     }
