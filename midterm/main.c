@@ -47,7 +47,7 @@ int Reverse(char *a, int N){
 
 
 int main() {
-	int N,N1,i,Ninv;
+	int N,length,i,Ninv,prime,W;
 	char *a,*b,*c;
 	int *y_1, *y_2, *x_1, *x_2,*result;
     int length_a,length_b;
@@ -56,7 +56,9 @@ int main() {
     b = (char *) malloc(MAXCHAR*sizeof(char));
     c = (char *) malloc(2*MAXCHAR*sizeof(char));
     printf("hello midterm \n");
-
+    
+    prime=409;
+    W=31;
     
 	
 	printf("Input number a and b (MAXIMUM DIGITS:%d)\n", MAXCHAR);
@@ -82,34 +84,40 @@ int main() {
     for (i=0; i<length_b; i++) {
         y_1[i]=b[i];
     }
-    fft(x_1, x_2,  length_a);
+    
+    
+    if (length_a>length_b) {
+        length=length_a;
+    }else{
+        length=length_b;
+    }
+    
+    fft(x_1, x_2,  length,prime,W);
     //ifft(x_2, x_2,  length_a);
-    fft(y_1, y_2,  length_b);
+    fft(y_1, y_2,  length,prime,W);
     //print_array(y_2, length_b);
     //ifft(y_2, y_2,  length_b);
     
-    if (length_a>length_b) {
-        N1=length_a;
-    }else{
-        N1=length_b;
-    }
+    
     N=1;
-    while(N<2*N1){
+    while(N<2*length){
         N <<=1;
     }
     N=N/2;
-    //print_array(x_2, N1);
-    //print_array(y_2, N1);
-    for(i=0;i<N1;++i){
-        x_2[i] = ((x_2[i]*y_2[i]*358)%409);
+    //print_array(x_2, length);
+    //print_array(y_2, length);
+    Ninv = Inverse_Zp(N,prime);
+    for(i=0;i<length;++i){
+        x_2[i] = ((x_2[i]*y_2[i]%prime*Ninv)%prime);
     }
-    ifft(x_2, x_2, N1);
-    for(i=0;i<N1-1;++i){
+    ifft(x_2, x_2, length,prime,W);
+    //print_array(x_2, length);
+    for(i=0;i<N;++i){
         x_2[i+1] += x_2[i]/10;
         x_2[i] = x_2[i] % 10;
     }
-    //Ninv = Inverse_Zp(N,409);
-    print_array(x_2, N);
+    //
+    print_int(x_2, N);
     /*
 	
 	
