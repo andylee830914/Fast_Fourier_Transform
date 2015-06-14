@@ -158,18 +158,13 @@ int main() {
     }
 
     t1 = clock();
-    //print_array(x_1, N);
-    //FFTn(x_1,x_2,N);
     fft(x_1, x_2,N,prime,W);
-    //print_array(x_2, N);
-
     fft(y_1, y_2,N,prime,W);
-    //print_array(y_2, N);
-
+    
     for(i=0;i<N;++i){
         x_2[i] = (((x_2[i]%prime)*(y_2[i]%prime)*Ninv)%prime);
     }
-    //print_array(x_2, N);
+    
     ifft(x_2, x_2, N,prime,W);
     for(i=0;i<N;++i){
         x_2[i+1] += x_2[i]/10;
