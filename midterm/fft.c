@@ -172,12 +172,22 @@ int ifft(long *x_r, long *y_r, int N,int prime,long W){
 long Inverse_Zp(long w, int p){
     int k;
     long w0 = w;
-    for(k=1;k<p;++k){
-        if((w*w0) % p == 1)
-            break;
-        w = (w*w0) % p;
+    if (w<p/2) {
+        for(k=p-1;k>0;k--){
+            if((w*w0) % p == 1)
+                break;
+            w = (w*w0) % p;
+        }
+
+    }else{
+        for(k=1;k<p;++k){
+            if((w*w0) % p == 1)
+                break;
+            w = (w*w0) % p;
+        }
+
     }
-    return w;
+        return w;
 }
 
 int ibutterfly(long *y_r, int N,int n,int prime,long w_0){
