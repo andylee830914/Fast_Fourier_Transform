@@ -7,7 +7,7 @@
 
 引用自[維基百科](https://zh.wikipedia.org/wiki/數論轉換)
 
-###Multiplication algorithm-Fourier transform methods###
+###Multiplication algorithm - Fourier transform methods###
 
 [維基百科](https://en.wikipedia.org/wiki/Multiplication_algorithm)
 
@@ -24,11 +24,12 @@ int fft(long *x, long *y, int N,int prime,long W);
 ````
 ####參數說明####
 
-	*x：初始序列
-	*y：輸出值序列
-     N：執行點數
- prime：用於計算mod的質數
-     W：W^N = 1 (mod prime)
+		*x：初始序列
+		*y：輸出值序列
+  	     N：執行點數
+     prime：用於計算mod的質數
+      	 W：W^N = 1 (mod prime)
+     
 	   
 ####初始值設定####
 
