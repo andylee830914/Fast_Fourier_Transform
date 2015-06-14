@@ -88,7 +88,7 @@ int Parameter_Finder(int N,int *prime, int *omega){
     *prime=p;
     *omega=n;
     
-    printf("N=%d,prime=%d,omega=%d\n",N,p,n);
+    //printf("N=%d,prime=%d,omega=%d\n",N,p,n);
     
     
     return 0;
@@ -138,10 +138,11 @@ int main() {
     }
     //initial parameter
     Parameter_Finder(N,&prime,&W);
-    /*N=32;
+    /*N=16;
     prime=1409;
     W=10;*/
     Ninv = Inverse_Zp(N,prime);
+    //printf("Ninv=%ld\n",Ninv);
     
     for (i=0; i<N; i++) {
         x_1[i]=a[i];
@@ -158,15 +159,17 @@ int main() {
 
     t1 = clock();
     //print_array(x_1, N);
+    //FFTn(x_1,x_2,N);
     fft(x_1, x_2,N,prime,W);
-    print_array(x_2, N);
+    //print_array(x_2, N);
+
     fft(y_1, y_2,N,prime,W);
-    print_array(y_2, N);
+    //print_array(y_2, N);
 
     for(i=0;i<N;++i){
         x_2[i] = (((x_2[i]%prime)*(y_2[i]%prime)*Ninv)%prime);
     }
-    print_array(x_2, N);
+    //print_array(x_2, N);
     ifft(x_2, x_2, N,prime,W);
     for(i=0;i<N;++i){
         x_2[i+1] += x_2[i]/10;

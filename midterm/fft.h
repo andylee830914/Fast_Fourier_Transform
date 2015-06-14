@@ -26,3 +26,4 @@ int butterfly(long *y_r, int N,int,int prime,long W);
 int ibutterfly(long *y_r, int N,int,int prime,long W);
 int groupn(long *x_r,int N);
 long Inverse_Zp(long w, int p);
+void FFTn(long *x,long *y,int N);
