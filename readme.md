@@ -58,7 +58,7 @@ $ ./fft
 hello final : DST 
 input 2^p 3^q 5^r : p q r =>2 2 2
 N=899
-0.001390 secs
+0.000532 secs
 ````	
 ##參考資料##
 1. 老師&老師的 Github [https://github.com/ycshu/midexam](https://github.com/ycshu/midexam)
