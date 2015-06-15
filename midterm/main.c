@@ -19,7 +19,7 @@ int main() {
 	int n, p,q,r;
 	double *y_r, *y_i, *x_r, *x_i;
 	clock_t t1, t2;
-    printf("hello midterm :DCT\n");
+    printf("hello final : DCT\n");
 	
 	/*
 	srand(time(NULL));
@@ -52,9 +52,9 @@ int main() {
 	}
 	
 	t1 = clock();
-	reorder(x_r, x_i, N);
-	fft(x_r, x_i, y_r, y_i, 4*N);
-	scale(y_r, y_i,N);
+	
+	dct(x_r, x_i, y_r, y_i, N);
+	
 	//
 	t2 = clock();
 	

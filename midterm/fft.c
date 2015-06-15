@@ -17,13 +17,16 @@ void swap(double *p,double *q){
 }
 
 
-int fft(double *x_r, double *x_i, double *y_r, double *y_i, int N){
+int dct(double *x_r, double *x_i, double *y_r, double *y_i, int N){
 	//int c;
 	//double theta,theta1;
 	//double w_r,w_i,wk_r,wk_i;
 	//int k;
     //double t_r, t_i;
     //double t_2r,t_2i;
+	
+	reorder(x_r, x_i, N);
+	N=4*N;
     int n,p, m=0;
     int N0,M0;
     int order[100];
@@ -78,8 +81,8 @@ int fft(double *x_r, double *x_i, double *y_r, double *y_i, int N){
         
         N0*=order[m];
     }
-	
-	
+	N=N/4;
+	scale(y_r, y_i,N);
 	return 0;
 }
 
@@ -89,10 +92,9 @@ int print_complex(double *r, double *i, int N){
 	int n;
 	for(n=0;n<N;++n)
 	{
-		if(i[n]>=0.0)
-			printf("%f +%f i\n",r[n],i[n]);
-		else
-			printf("%f %f i\n",r[n],i[n]);
+		
+		printf("%f\n",r[n]);
+		
 	}
     printf("\n");
 	return 0;
