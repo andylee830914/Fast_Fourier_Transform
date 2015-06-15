@@ -3,11 +3,14 @@
 
 ##演算法簡介##
 ###離散正弦變換###
-對於 N 點序列 $\left\{x[n]\right\}_{0\le n <N}$，它的離散傅立葉變換（DFT）為
-$$\hat{x}[k]=\sum_{n=0}^{N-1} e^{-i\frac{2\pi}{N}nk}x[n] \qquad k = 0,1,\ldots,N-1$$
-其中 $e$ 是自然對數的底數，$i$ 是虛數單位。
+離散正弦變換（DST for Discrete Sine Transform）是一種與傅立葉變換相關的變換，類似離散傅立葉變換，但是只用實數矩陣。離散正弦變換相當於長度約為它兩倍，一個實數且奇對稱輸入資料的的離散傅立葉變換的虛數部分（因為一個實奇輸入的傅立葉變換為純虛數奇對稱輸出）。有些變型裡將輸入或輸出移動半個取樣。
+####DST-I####
+$$X_k = \sum_{n=0}^{N-1} x_n \sin \left[\frac{\pi}{N+1} (n+1) (k+1) \right] \quad \quad k = 0, \dots, N-1$$
 
-引用自[維基百科](http://zh.wikipedia.org/wiki/离散傅里叶变换)
+####反變換####
+DST-I的反變換是把DST-I乘以$\frac{2}{N+1}$。
+
+引用自[維基百科](https://zh.wikipedia.org/wiki/离散正弦变换)
 
 
 ###庫利－圖基快速傅立葉變換算法###
@@ -17,14 +20,15 @@ $$\hat{x}[k]=\sum_{n=0}^{N-1} e^{-i\frac{2\pi}{N}nk}x[n] \qquad k = 0,1,\ldots,N
 
 ##作業說明##
 ###簡介###
-本程式使用 C 語言實作 radix-2、radix-3、radix-5 的演算法，可用於計算 $N=2^p\times 3^q \times 5^r$ 點的離散傅立葉變換。
+本程式使用 C 語言實作 radix-2、radix-3、radix-5 的演算法，可用於計算 $N=2^p\times 3^q \times 5^r-1$ 點的離散正弦變換。
 
 註：檔案位於 [midterm] (midterm) 資料夾內
 
 ###函數參數###
 ####主要函數####
 ````C
-int fft(double *x_r, double *x_i, double *y_r, double *y_i, int N)
+int dst(double *x_r, double *x_i, double *y_r, double *y_i, int N)
+int idst(double *x_r, double *x_i, double *y_r, double *y_i, int N)
 ````
 ####參數說明####
 
@@ -51,10 +55,10 @@ $ gcc -lm main.c fft.c -o fft
 ####執行與輸出####
 ````Shell
 $ ./fft
-hello midterm
-input 2^p 3^q 5^r : p q r =>5 5 5
-N=24300000
-17.514198 secs
+hello final : DST 
+input 2^p 3^q 5^r : p q r =>2 2 2
+N=899
+0.001390 secs
 ````	
 ##參考資料##
 1. 老師&老師的 Github [https://github.com/ycshu/midexam](https://github.com/ycshu/midexam)
