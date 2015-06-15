@@ -19,7 +19,7 @@ int main() {
 	int n, p,q,r;
 	double *y_r, *y_i, *x_r, *x_i;
 	clock_t t1, t2;
-    printf("hello midterm :DST \n");
+    printf("hello final : DST \n");
 	
 	/*
 	srand(time(NULL));
@@ -36,7 +36,7 @@ int main() {
 	printf("input 2^p 3^q 5^r : p q r =>");
 	scanf("%d %d %d", &p,&q,&r);
 	N = 1 << p;
-	N=N*pow(3,q)*pow(5, r);
+	N=N*pow(3,q)*pow(5, r)-1;
 	printf("N=%d\n",N);
 	
 	x_r = (double *) malloc((2*N+2)*sizeof(double));
@@ -47,14 +47,13 @@ int main() {
 	//initial data
 	for(n=0;n<N;++n)
 	{
-		x_r[n] = 0;
-		x_i[n] = n;
+		x_r[n] = n;
+		x_i[n] = 0;
 	}
 	
 	t1 = clock();
-	reorder(x_r, x_i, N);
-	fft(x_r, x_i, y_r, y_i, 2*(N+1));
-	scale(y_r, y_i,N);
+	dst(x_r, x_i, y_r, y_i, N);
+	idst(y_r, y_i, y_r, y_i, N);
 	t2 = clock();
 	
 	printf("%f secs\n", 1.0*(t2-t1)/CLOCKS_PER_SEC);//print times
