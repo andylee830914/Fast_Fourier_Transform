@@ -9,7 +9,9 @@
 
 ###Multiplication algorithm - Fourier transform methods###
 
-[維基百科](https://en.wikipedia.org/wiki/Multiplication_algorithm)
+![Integer multiplication by FFT](https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Integer_multiplication_by_FFT.svg/551px-Integer_multiplication_by_FFT.svg.png)
+
+引用自[維基百科](https://en.wikipedia.org/wiki/Multiplication_algorithm)
 
 ##作業說明##
 ###簡介###
