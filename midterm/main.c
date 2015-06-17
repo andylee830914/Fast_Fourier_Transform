@@ -126,6 +126,10 @@ int main() {
     Reverse(b,length_b);
     Char2Int(a, length_a);
     Char2Int(b, length_b);
+    if (length_a==1&&length_b==1) {
+        printf("%d",a[0]*b[0]);
+        return 0;
+    }
     //initial data
     if (length_a>length_b) {
         length=length_a;
