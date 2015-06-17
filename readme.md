@@ -1,3 +1,11 @@
+#快速傅立葉轉換及其應用#
+ ###期中考 - 快速傅立葉轉換
+ * [快速傅立葉轉換](https://github.com/andylee830914/Fast_Fourier_Transform) ：Implement of radix-2, radix-3 & radix-5 FFT algorithm
+ ###期末考 - 快速傅立葉轉換的應用
+ * [離散餘弦轉換](https://github.com/andylee830914/Fast_Fourier_Transform/tree/DCT) ：Implement of radix-2, radix-3 & radix-5 DCT algorithm
+ * [離散正弦轉換](https://github.com/andylee830914/Fast_Fourier_Transform/tree/DST) ：Implement of radix-2 DST algorithm
+ * [快速乘法](https://github.com/andylee830914/Fast_Fourier_Transform/tree/multiplication) ：Application of General Discrete Fourier transform
+
 #快速計算法期中考：快速傅立葉轉換#
 
 
@@ -33,7 +41,7 @@ int fft(double *x_r, double *x_i, double *y_r, double *y_i, int N)
 	*y_r：輸出值序列實部
 	*y_i：輸出值序列虛部
 	   N：執行點數
-	   
+
 ####初始序列設定####
 
 目前設定 $\left\{x[n]=n\right\}_{0\le n <N}$ 為初始序列
@@ -43,7 +51,7 @@ int fft(double *x_r, double *x_i, double *y_r, double *y_i, int N)
 ####測試環境####
 硬體規格：Mac mini (Late 2014) Intel Core i5 2.8GHz
 <br>作業系統：Mac OSX Yosemite 10.10.4
-<br>開發環境：Xcode Version 6.3.1 
+<br>開發環境：Xcode Version 6.3.1
 ####編譯####
 ````Shell
 $ gcc -lm main.c fft.c -o fft
@@ -55,12 +63,8 @@ hello midterm
 input 2^p 3^q 5^r : p q r =>5 5 5
 N=24300000
 17.514198 secs
-````	
+````
 ##參考資料##
 1. 老師&老師的 Github [https://github.com/ycshu/midexam](https://github.com/ycshu/midexam)
 2. Todd D. Mateer, *The Fast Fourier Transform
 A Mathematical Perspective*, <http://www.math.clemson.edu/~janoski/reu/2008/FFT-book.pdf>
-
-
-
-	
