@@ -53,7 +53,7 @@ int main() {
 	
 	t1 = clock();
 	dst(x_r, x_i, y_r, y_i, N);
-	//idst(y_r, y_i, y_r, y_i, N);
+	idst(y_r, y_i, y_r, y_i, N);
 	t2 = clock();
 	
 	printf("%f secs\n", 1.0*(t2-t1)/CLOCKS_PER_SEC);//print times
