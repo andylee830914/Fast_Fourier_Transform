@@ -8,212 +8,540 @@
 
 #include "fft.h"
 
-void swap(int *p,int *q){
-    int tmp;
+void swap(double *p,double *q){
+    double tmp;
     tmp=*p;
     *p=*q;
     *q=tmp;
+    
 }
 
 
-int fft(long *x_r,long *y_r, int N,int prime,long W){
-    int n;
+int fft(double *x_r, double *x_i, double *y_r, double *y_i, int N){
+	//int c;
+	//double theta,theta1;
+	//double w_r,w_i,wk_r,wk_i;
+	//int k;
+    //double t_r, t_i;
+    //double t_2r,t_2i;
+    int n,p, m=0;
     int N0,M0;
+    int order[100];
+
+	//termination conditions
+	if(N==1){
+		
+		y_r[0] = x_r[0];
+		y_i[0] = x_i[0];
+		
+		return 0;
+	}
     
-    //termination conditions
-    if(N==1){
-        
-        y_r[0] = x_r[0];
-        
-        return 0;
-    }
+
     
-    for(n=0;n<N;++n){
+    
+    for(n=0;n<N;++n)
+    {
         y_r[n] = x_r[n];
-    }
-    //print_array(y_r, N);
-    N0=N;
-    while (N0>1) {
-        M0=0;
-        while (M0<N) {
-            groupn(y_r+M0, N0);
-            M0+=N0;
-        }
-        N0/=2;
-    }
-
-    while (N0<N) {
-        butterfly(y_r, N,N0,prime,W);
-        N0*=2;
-    }
-    
-    return 0;
-}
-
-
-
-int print_array(long *r, int N){
-    int n;
-    for(n=0;n<N;++n){
-        printf("%ld\n",r[n]);
-    }
-    printf("\n");
-    return 0;
-}
-
-int print_int(long *r, int N){
-    int n,M=N,i,count=0;
-    
-    for(i=N;i>=0;i--){
-        
-        if (r[i]==0&&r[i-1]!=0&&count==0) {
-            M=i-1;
-            count++;
-        }
-    }
-    for(n=M;n>=0;n--){
-        
-        printf("%ld",r[n]);
-    }
-    
-    printf("\n");
-    return 0;
-}
-
-int butterfly(long *y_r, int N,int n,int prime,long w_0){
-    w_0=Inverse_Zp(w_0,prime);
-    //print_array(y_r, N);
-    long w_r,w_k;
-    int i,k;
-    long t_r;
-    int p, q;
-    n=n*2;
-    //printf("n=%d,wi=%ld\n",n,w_0);
-    w_r=1;
-    w_k=1;
-    if (n!=2) {
-        for (i=0; i<(N/(n)); i++) {
-            w_k=(w_k*(w_0%prime))%prime;
-            
-        }
-    }
-    
-    for(k=0;k<n/2;k++){
-        for(p=k;p<N;p+=n){
-            q = p+n/2;
-            t_r = (w_r*(y_r[q]%prime))%prime;
-            y_r[q] = (y_r[p]%prime + (prime-1)*t_r)%prime;
-            y_r[p] = (y_r[p]%prime + t_r)%prime;
-        }
-        w_r=(w_r*w_k)%prime;
-    }
-    
-    return 0;
-    
-}
-
-
-
-int groupn(long *x_r,int N){
-    int n,m;
-    long *u_r;
-    
-    u_r= (long *) malloc(N*sizeof(long));
-    
-    
-    for(n=0;n<N/2;n++){
-        
-        for (m=0; m<2; m++) {
-            u_r[n+m*N/2] = x_r[2*n+m];
-            
-        }
-    }
-    for(n=0;n<N;n++){
-        x_r[n] = u_r[n];
-    }
-    
-    free(u_r);
-    return 0;
-}
-
-
-
-int ifft(long *x_r, long *y_r, int N,int prime,long W){
-    int n;
-    int N0,M0;
-    //termination conditions
-    if(N==1){
-        
-        y_r[0] = x_r[0];
-        
-        return 0;
-    }
-    
-    for(n=0;n<N;++n){
-        y_r[n] = x_r[n];
+        y_i[n] = x_i[n];
     }
     
     N0=N;
+    p=1;
     while (N0>1) {
+        if ((N0%2)==0) {
+            p=2;
+        }else if ((N0%3)==0){
+            p=3;
+		}else if ((N0%5)==0){
+			p=5;
+		}else{
+            p=1;
+        }
         M0=0;
         while (M0<N) {
-            groupn(y_r+M0, N0);
+            
+            groupn(y_r+M0, y_i+M0, N0, p);
             M0+=N0;
         }
-        N0/=2;
+        order[m]=p;
+        m++;
+        N0/=p;
     }
     
+    
+    
     while (N0<N) {
-        ibutterfly(y_r, N,N0,prime,W);
-        N0*=2;
+        m--;
+        butterfly(y_r, y_i, N, order[m],N0);
+        
+        
+        N0*=order[m];
     }
+	
+	
+	return 0;
+}
+
+
+
+int print_complex(double *r, double *i, int N){
+	int n;
+	for(n=0;n<N;++n)
+	{
+		if(i[n]>=0.0)
+			printf("%f +%f i\n",r[n],i[n]);
+		else
+			printf("%f %f i\n",r[n],i[n]);
+	}
+    printf("\n");
+	return 0;
+}
+
+int bit_reverse(double *y_r, double *y_i, int N,int c){
+    int m,p,q,k;
+    m = N/c;
+    q = m;
+    for(p=1;p<N-1;++p)
+    {
+        //printf("%d <-> %d\n", p,q);
+        
+        if(p < q)
+        {
+            //printf("%d,%d\n",p,q);
+            swap(y_r+p,y_r+q);
+            //printf("%d,%d\n\n",p,q);
+            swap(y_i+p,y_i+q);
+        }
+        k = m;
+        while(q >= (c-1)*k & k > 0)
+        {
+            q = q-(c-1)*k;
+            k =k/c;
+            //printf("%d,%d\n",q,k);
+        }
+        q = q+k;
+        
+    }
+    print_complex(y_r, y_i, N);
     return 0;
 }
-long Inverse_Zp(long w, int p){
+
+
+int butterfly(double *y_r, double *y_i, int N,int c,int n){
+    double theta,theta1;
+    double w_r,w_i,wk_r,wk_i;
     int k;
-    long w0 = w;
-    if (w<p/2) {
-        for(k=p-1;k>0;k--){
-            if((w*w0) % p == 1)
-                break;
-            w = (w*w0) % p;
-        }
+    double t_r, t_i;
+    double t_2r,t_2i;
+	double t_3r,t_3i;
+	double t_4r,t_4i;
+    int p, q,r,s,t;
 
-    }else{
-        for(k=1;k<p;++k){
-            if((w*w0) % p == 1)
-                break;
-            w = (w*w0) % p;
-        }
+    n=n*c;
+    switch( c ){
+            
+        case 2:
 
+            //n = 2;
+            //while(n <= N && ((2*N/n)%2)==0){
+                for(k=0;k<n/2;k++){
+                    theta = -2.0*k*M_PI/n;
+                    w_r = cos(theta);
+                    w_i = sin(theta);
+                    
+                    for(p=k;p<N;p+=n){
+                        q = p+n/2;
+                        t_r = w_r*y_r[q]-w_i*y_i[q];
+                        t_i = w_r*y_i[q]+w_i*y_r[q];
+                        y_r[q] = y_r[p] - t_r;
+                        y_i[q] = y_i[p] - t_i;
+                        y_r[p] = y_r[p] + t_r;
+                        y_i[p] = y_i[p] + t_i;
+                        
+                    }
+                    
+                }
+                //n = n * 2;
+                
+            //}
+            
+            
+            break;
+        case 3:
+            //n = 3;
+            //while(n <= N && ((3*N/n)%3)==0){
+			theta1 = -2.0*M_PI/3;
+			wk_r= cos(theta1);
+			wk_i= sin(theta1);
+                for(k=0;k<n/3;k++){
+                    theta = -2.0*k*M_PI/n;
+                    w_r = cos(theta);
+                    w_i = sin(theta);
+                    //printf("n=%d,w=%f+%f,w2=%f+%f\n",n,w_r,w_i,wk_r,wk_i);
+                    
+                    for(p=k;p<N;p+=n)
+                    {
+                        q = p+n/3;
+                        r = p+2*n/3;
+                        t_r = w_r*y_r[q]-w_i*y_i[q];
+                        t_i = w_r*y_i[q]+w_i*y_r[q];
+                        t_2r= (w_r*w_r-w_i*w_i)*y_r[r]-(w_r*w_i+w_r*w_i)*y_i[r];
+                        t_2i= (w_r*w_r-w_i*w_i)*y_i[r]+(w_r*w_i+w_r*w_i)*y_r[r];
+                        
+						
+						
+						y_r[r]=y_r[p]
+						+wk_r*(t_r+t_2r)+wk_i*(t_i-t_2i);
+						y_i[r]=y_i[p]
+						+wk_r*(t_i+t_2i)-wk_i*(t_r-t_2r);
+						
+						y_r[q]=y_r[p]
+						+wk_r*(t_r+t_2r)-wk_i*(t_i-t_2i);//wk^1
+						y_i[q]=y_i[p]
+						+wk_r*(t_i+t_2i)+wk_i*(t_r-t_2r);
+						
+						y_r[p]=y_r[p]+t_r+t_2r;
+						y_i[p]=y_i[p]+t_i+t_2i;
+                    }
+                }
+                //n = n * 3;
+			
+            //}
+            break;
+		case 5:
+			//n = 3;
+			//while(n <= N && ((3*N/n)%3)==0){
+			theta1 = -2.0*M_PI/5;
+			wk_r= cos(theta1);
+			wk_i= sin(theta1);
+			for(k=0;k<n/5;k++){
+				theta = -2.0*k*M_PI/n;
+				w_r = cos(theta);
+				w_i = sin(theta);
+				
+				//printf("n=%d,w=%f+%f,w2=%f+%f\n",n,w_r,w_i,wk_r,wk_i);
+				
+				for(p=k;p<N;p+=n)
+				{
+					q = p+n/5;
+					r = p+2*n/5;
+					s = p+3*n/5;
+					t = p+4*n/5;
+					t_r = w_r*y_r[q]-w_i*y_i[q];
+					t_i = w_r*y_i[q]+w_i*y_r[q];
+					t_2r= (w_r*w_r-w_i*w_i)*y_r[r]-(w_r*w_i+w_r*w_i)*y_i[r];
+					t_2i= (w_r*w_r-w_i*w_i)*y_i[r]+(w_r*w_i+w_r*w_i)*y_r[r];
+					t_3r= (w_r*w_r*w_r-3*w_r*w_i*w_i)*y_r[s]-(3*w_r*w_r*w_i-w_i*w_i*w_i)*y_i[s];
+					t_3i= (w_r*w_r*w_r-3*w_r*w_i*w_i)*y_i[s]+(3*w_r*w_r*w_i-w_i*w_i*w_i)*y_r[s];
+					t_4r= ((w_r*w_r-w_i*w_i)*(w_r*w_r-w_i*w_i)-(2*w_r*w_i)*(2*w_r*w_i))*y_r[t]-(2*(w_r*w_r-w_i*w_i)*(2*w_r*w_i))*y_i[t];
+					t_4i= ((w_r*w_r-w_i*w_i)*(w_r*w_r-w_i*w_i)-(2*w_r*w_i)*(2*w_r*w_i))*y_i[t]+(2*(w_r*w_r-w_i*w_i)*(2*w_r*w_i))*y_r[t];
+					
+					y_r[t]=y_r[p]
+					+wk_r*(t_4r+t_r)-wk_i*(t_4i-t_i)//wk^1
+					+(wk_r*wk_r-wk_i*wk_i)*(t_3r+t_2r)-(2*wk_r*wk_i)*(t_3i-t_2i);
+					y_i[t]=y_i[p]
+					+wk_r*(t_4i+t_i)+wk_i*(t_4r-t_r)
+					+(wk_r*wk_r-wk_i*wk_i)*(t_3i+t_2i)+(2*wk_r*wk_i)*(t_3r-t_2r);
+					
+					y_r[s]=y_r[p]
+					+wk_r*(t_2r+t_3r)-wk_i*(t_2i-t_3i)//wk^1
+					+(wk_r*wk_r-wk_i*wk_i)*(t_4r+t_r)-(2*wk_r*wk_i)*(t_4i-t_i);
+					y_i[s]=y_i[p]
+					+wk_r*(t_2i+t_3i)+wk_i*(t_2r-t_3r)
+					+(wk_r*wk_r-wk_i*wk_i)*(t_4i+t_i)+(2*wk_r*wk_i)*(t_4r-t_r);
+					
+					y_r[r]=y_r[p]
+					+wk_r*(t_3r+t_2r)-wk_i*(t_3i-t_2i)//wk^1
+					+(wk_r*wk_r-wk_i*wk_i)*(t_r+t_4r)-(2*wk_r*wk_i)*(t_i-t_4i);
+					y_i[r]=y_i[p]
+					+wk_r*(t_3i+t_2i)+wk_i*(t_3r-t_2r)
+					+(wk_r*wk_r-wk_i*wk_i)*(t_i+t_4i)+(2*wk_r*wk_i)*(t_r-t_4r);
+					
+					y_r[q]=y_r[p]
+					+wk_r*(t_r+t_4r)-wk_i*(t_i-t_4i)//wk^1
+					+(wk_r*wk_r-wk_i*wk_i)*(t_2r+t_3r)-(2*wk_r*wk_i)*(t_2i-t_3i);
+					y_i[q]=y_i[p]
+					+wk_r*(t_i+t_4i)+wk_i*(t_r-t_4r)
+					+(wk_r*wk_r-wk_i*wk_i)*(t_2i+t_3i)+(2*wk_r*wk_i)*(t_2r-t_3r);
+					
+					y_r[p]=y_r[p]+t_r+t_2r+t_3r+t_4r;
+					y_i[p]=y_i[p]+t_i+t_2i+t_3i+t_4i;
+				}
+			}
+			//n = n * 3;
+			
+			//}
+			break;
+
+			
+			
+            //print_complex(y_r, y_i, N);
+			
     }
-        return w;
+	
+    return 0;
+
 }
 
-int ibutterfly(long *y_r, int N,int n,int prime,long w_0){
-    long w_r,w_k;
-    int i,k;
-    long t_r;
-    int p, q;
-    n=n*2;
-    w_r=1;
-    w_k=1;
-    if (n!=2) {
-        for (i=0; i<(N/(n)); i++) {
-            w_k=(w_k*(w_0%prime))%prime;
-            
+
+
+int groupn(double *x_r,double *x_i,int N,int p){
+    int n,m;
+    double *u_r,*u_i;
+	
+    u_r= (double *) malloc(N*sizeof(double));
+    u_i= (double *) malloc(N*sizeof(double));
+
+	
+    for(n=0;n<N/p;n++)
+    {
+		
+        for (m=0; m<p; m++) {
+            u_r[n+m*N/p] = x_r[p*n+m];
+            u_i[n+m*N/p] = x_i[p*n+m];
+
         }
     }
-    for(k=0;k<n/2;k++){
-        for(p=k;p<N;p+=n){
-            q = p+n/2;
-            t_r = (w_r*(y_r[q]%prime))%prime;
-            y_r[q] = (y_r[p]%prime + (prime-1)*t_r)%prime;
-            y_r[p] = (y_r[p]%prime + t_r)%prime;
-        }
-        w_r=((w_r%prime)*(w_k%prime))%prime;
+	
+	
+    for(n=0;n<N;n++)
+    {
+        x_r[n] = u_r[n];
+        x_i[n] = u_i[n];
     }
-    
+	
+    free(u_r);
+    free(u_i);
     return 0;
-    
+}
+
+
+
+int ifft(double *x_r, double *x_i, double *y_r, double *y_i, int N){
+	//int c;
+	//double theta,theta1;
+	//double w_r,w_i,wk_r,wk_i;
+	//int k;
+	//double t_r, t_i;
+	//double t_2r,t_2i;
+	int n,p, m=0;
+	int N0,M0;
+	int order[100];
+	
+	//termination conditions
+	if(N==1){
+		
+		y_r[0] = x_r[0];
+		y_i[0] = x_i[0];
+		
+		return 0;
+	}
+	
+	
+	
+	
+	for(n=0;n<N;++n)
+	{
+		y_r[n] = x_r[n];
+		y_i[n] = x_i[n];
+	}
+	
+	N0=N;
+	p=1;
+	while (N0>1) {
+		if ((N0%2)==0) {
+			p=2;
+		}else if ((N0%3)==0){
+			p=3;
+		}else if ((N0%5)==0){
+			p=5;
+		}else{
+			p=1;
+		}
+		M0=0;
+		while (M0<N) {
+			
+			groupn(y_r+M0, y_i+M0, N0, p);
+			M0+=N0;
+		}
+		order[m]=p;
+		m++;
+		N0/=p;
+	}
+	
+	
+	
+	while (N0<N) {
+		m--;
+		ibutterfly(y_r, y_i, N, order[m],N0);
+		
+		
+		N0*=order[m];
+	}
+	
+	for(n=0;n<N;++n)
+	{
+		y_r[n] = y_r[n]/N;
+		y_i[n] = y_i[n]/N;
+	}
+	
+	
+	return 0;
+}
+
+int ibutterfly(double *y_r, double *y_i, int N,int c,int n){
+	double theta,theta1;
+	double w_r,w_i,wk_r,wk_i;
+	int k;
+	double t_r, t_i;
+	double t_2r,t_2i;
+	double t_3r,t_3i;
+	double t_4r,t_4i;
+	int p, q,r,s,t;
+	
+	n=n*c;
+	switch( c ){
+			
+		case 2:
+			
+			//n = 2;
+			//while(n <= N && ((2*N/n)%2)==0){
+			for(k=0;k<n/2;k++){
+				theta = 2.0*k*M_PI/n;
+				w_r = cos(theta);
+				w_i = sin(theta);
+				
+				for(p=k;p<N;p+=n){
+					q = p+n/2;
+					t_r = w_r*y_r[q]-w_i*y_i[q];
+					t_i = w_r*y_i[q]+w_i*y_r[q];
+					y_r[q] = y_r[p] - t_r;
+					y_i[q] = y_i[p] - t_i;
+					y_r[p] = y_r[p] + t_r;
+					y_i[p] = y_i[p] + t_i;
+					
+				}
+				
+			}
+			//n = n * 2;
+			
+			//}
+			
+			
+			break;
+		case 3:
+			//n = 3;
+			//while(n <= N && ((3*N/n)%3)==0){
+			theta1 = 2.0*M_PI/3;
+			wk_r= cos(theta1);
+			wk_i= sin(theta1);
+			for(k=0;k<n/3;k++){
+				theta = 2.0*k*M_PI/n;
+				w_r = cos(theta);
+				w_i = sin(theta);
+				//printf("n=%d,w=%f+%f,w2=%f+%f\n",n,w_r,w_i,wk_r,wk_i);
+				
+				for(p=k;p<N;p+=n)
+				{
+					q = p+n/3;
+					r = p+2*n/3;
+					t_r = w_r*y_r[q]-w_i*y_i[q];
+					t_i = w_r*y_i[q]+w_i*y_r[q];
+					t_2r= (w_r*w_r-w_i*w_i)*y_r[r]-(w_r*w_i+w_r*w_i)*y_i[r];
+					t_2i= (w_r*w_r-w_i*w_i)*y_i[r]+(w_r*w_i+w_r*w_i)*y_r[r];
+					
+					
+					
+					y_r[r]=y_r[p]
+					+wk_r*(t_r+t_2r)+wk_i*(t_i-t_2i);
+					y_i[r]=y_i[p]
+					+wk_r*(t_i+t_2i)-wk_i*(t_r-t_2r);
+					
+					y_r[q]=y_r[p]
+					+wk_r*(t_r+t_2r)-wk_i*(t_i-t_2i);//wk^1
+					y_i[q]=y_i[p]
+					+wk_r*(t_i+t_2i)+wk_i*(t_r-t_2r);
+					
+					y_r[p]=y_r[p]+t_r+t_2r;
+					y_i[p]=y_i[p]+t_i+t_2i;
+				}
+			}
+			//n = n * 3;
+			
+			//}
+			break;
+		case 5:
+			//n = 3;
+			//while(n <= N && ((3*N/n)%3)==0){
+			theta1 = 2.0*M_PI/5;
+			wk_r= cos(theta1);
+			wk_i= sin(theta1);
+			for(k=0;k<n/5;k++){
+				theta = 2.0*k*M_PI/n;
+				w_r = cos(theta);
+				w_i = sin(theta);
+				
+				//printf("n=%d,w=%f+%f,w2=%f+%f\n",n,w_r,w_i,wk_r,wk_i);
+				
+				for(p=k;p<N;p+=n)
+				{
+					q = p+n/5;
+					r = p+2*n/5;
+					s = p+3*n/5;
+					t = p+4*n/5;
+					t_r = w_r*y_r[q]-w_i*y_i[q];
+					t_i = w_r*y_i[q]+w_i*y_r[q];
+					t_2r= (w_r*w_r-w_i*w_i)*y_r[r]-(w_r*w_i+w_r*w_i)*y_i[r];
+					t_2i= (w_r*w_r-w_i*w_i)*y_i[r]+(w_r*w_i+w_r*w_i)*y_r[r];
+					t_3r= (w_r*w_r*w_r-3*w_r*w_i*w_i)*y_r[s]-(3*w_r*w_r*w_i-w_i*w_i*w_i)*y_i[s];
+					t_3i= (w_r*w_r*w_r-3*w_r*w_i*w_i)*y_i[s]+(3*w_r*w_r*w_i-w_i*w_i*w_i)*y_r[s];
+					t_4r= ((w_r*w_r-w_i*w_i)*(w_r*w_r-w_i*w_i)-(2*w_r*w_i)*(2*w_r*w_i))*y_r[t]-(2*(w_r*w_r-w_i*w_i)*(2*w_r*w_i))*y_i[t];
+					t_4i= ((w_r*w_r-w_i*w_i)*(w_r*w_r-w_i*w_i)-(2*w_r*w_i)*(2*w_r*w_i))*y_i[t]+(2*(w_r*w_r-w_i*w_i)*(2*w_r*w_i))*y_r[t];
+					
+					y_r[t]=y_r[p]
+					+wk_r*(t_4r+t_r)-wk_i*(t_4i-t_i)//wk^1
+					+(wk_r*wk_r-wk_i*wk_i)*(t_3r+t_2r)-(2*wk_r*wk_i)*(t_3i-t_2i);
+					y_i[t]=y_i[p]
+					+wk_r*(t_4i+t_i)+wk_i*(t_4r-t_r)
+					+(wk_r*wk_r-wk_i*wk_i)*(t_3i+t_2i)+(2*wk_r*wk_i)*(t_3r-t_2r);
+					
+					y_r[s]=y_r[p]
+					+wk_r*(t_2r+t_3r)-wk_i*(t_2i-t_3i)//wk^1
+					+(wk_r*wk_r-wk_i*wk_i)*(t_4r+t_r)-(2*wk_r*wk_i)*(t_4i-t_i);
+					y_i[s]=y_i[p]
+					+wk_r*(t_2i+t_3i)+wk_i*(t_2r-t_3r)
+					+(wk_r*wk_r-wk_i*wk_i)*(t_4i+t_i)+(2*wk_r*wk_i)*(t_4r-t_r);
+					
+					y_r[r]=y_r[p]
+					+wk_r*(t_3r+t_2r)-wk_i*(t_3i-t_2i)//wk^1
+					+(wk_r*wk_r-wk_i*wk_i)*(t_r+t_4r)-(2*wk_r*wk_i)*(t_i-t_4i);
+					y_i[r]=y_i[p]
+					+wk_r*(t_3i+t_2i)+wk_i*(t_3r-t_2r)
+					+(wk_r*wk_r-wk_i*wk_i)*(t_i+t_4i)+(2*wk_r*wk_i)*(t_r-t_4r);
+					
+					y_r[q]=y_r[p]
+					+wk_r*(t_r+t_4r)-wk_i*(t_i-t_4i)//wk^1
+					+(wk_r*wk_r-wk_i*wk_i)*(t_2r+t_3r)-(2*wk_r*wk_i)*(t_2i-t_3i);
+					y_i[q]=y_i[p]
+					+wk_r*(t_i+t_4i)+wk_i*(t_r-t_4r)
+					+(wk_r*wk_r-wk_i*wk_i)*(t_2i+t_3i)+(2*wk_r*wk_i)*(t_2r-t_3r);
+					
+					y_r[p]=y_r[p]+t_r+t_2r+t_3r+t_4r;
+					y_i[p]=y_i[p]+t_i+t_2i+t_3i+t_4i;
+				}
+			}
+			//n = n * 3;
+			
+			//}
+			break;
+			
+			
+			
+			//print_complex(y_r, y_i, N);
+			
+	}
+	
+	return 0;
+	
 }

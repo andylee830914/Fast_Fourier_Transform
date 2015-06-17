@@ -1,50 +1,42 @@
-<<<<<<< HEAD
-#快速傅立葉轉換及其應用#
-###期中考 - 快速傅立葉轉換
-* [快速傅立葉轉換](https://github.com/andylee830914/Fast_Fourier_Transform) ：Implement of radix-2, radix-3 & radix-5 FFT algorithm
-
-###期末考 - 快速傅立葉轉換的應用
-* [離散餘弦轉換](https://github.com/andylee830914/Fast_Fourier_Transform/tree/DCT) ：Implement of radix-2, radix-3 & radix-5 DCT algorithm
-* [離散正弦轉換](https://github.com/andylee830914/Fast_Fourier_Transform/tree/DST) ：Implement of radix-2 DST algorithm
-* [快速乘法](https://github.com/andylee830914/Fast_Fourier_Transform/tree/multiplication) ：Application of General Discrete Fourier transform 
-=======
-#快速計算法期末考：快速乘法#
->>>>>>> multiplication
+#快速計算法期中考：快速傅立葉轉換#
 
 
 ##演算法簡介##
-###數論轉換###
-數論轉換是一種計算摺積的快速演算法。計算摺積的快速演算法中最常用的一種是使用快速傅里葉變換，然而快速傅立葉變換具有一些實現上的缺點，舉例來說，資料向量必須乘上複數係數的矩陣加以處理，而且每個複數係數的實部和虛部是一個正弦及餘弦函數，因此大部分的係數都是浮點數，也就是說，我們必須做複數而且是浮點數的運算，因此計算量會比較大，而且浮點數運算產生的誤差會比較大。
+###離散傅立葉變換###
+對於 N 點序列 $\left\{x[n]\right\}_{0\le n <N}$，它的離散傅立葉變換（DFT）為
+$$\hat{x}[k]=\sum_{n=0}^{N-1} e^{-i\frac{2\pi}{N}nk}x[n] \qquad k = 0,1,\ldots,N-1$$
+其中 $e$ 是自然對數的底數，$i$ 是虛數單位。
 
-引用自[維基百科](https://zh.wikipedia.org/wiki/數論轉換)
+引用自[維基百科](http://zh.wikipedia.org/wiki/离散傅里叶变换)
 
-###Multiplication algorithm - Fourier transform methods###
 
-[維基百科](https://en.wikipedia.org/wiki/Multiplication_algorithm)
+###庫利－圖基快速傅立葉變換算法###
+庫利－圖基快速傅立葉變換算法（Cooley-Tukey算法）是最常見的快速傅里葉變換算法。這一方法以分治法為策略遞歸地將長度為 $N = N_1\times N_2$ 的DFT分解為長度分別為 $N_1$ 和 $N_2$ 的兩個較短序列的DFT，以及與旋轉因子的複數乘法。
+
+引用自[維基百科](http://zh.wikipedia.org/wiki/库利－图基快速傅里叶变换算法)
 
 ##作業說明##
 ###簡介###
-本程式使用 C 語言實作快速數論轉換的演算法，可用於計算乘法。
+本程式使用 C 語言實作 radix-2、radix-3、radix-5 的演算法，可用於計算 $N=2^p\times 3^q \times 5^r$ 點的離散傅立葉變換。
 
 註：檔案位於 [midterm] (midterm) 資料夾內
 
 ###函數參數###
 ####主要函數####
 ````C
-int fft(long *x, long *y, int N,int prime,long W);
+int fft(double *x_r, double *x_i, double *y_r, double *y_i, int N)
 ````
 ####參數說明####
 
-		*x：初始序列
-		*y：輸出值序列
-  	     N：執行點數
-     prime：用於計算mod的質數
-      	 W：W^N = 1 (mod prime)
-     
+	*x_r：初始序列實部
+	*x_i：初始序列虛部
+	*y_r：輸出值序列實部
+	*y_i：輸出值序列虛部
+	   N：執行點數
 	   
-####初始值設定####
+####初始序列設定####
 
-輸入 a 與 b 的值。
+目前設定 $\left\{x[n]=n\right\}_{0\le n <N}$ 為初始序列
 
 
 ###執行測試###
@@ -59,12 +51,10 @@ $ gcc -lm main.c fft.c -o fft
 ####執行與輸出####
 ````Shell
 $ ./fft
-hello midterm 
-Input number a and b (MAXIMUM DIGITS:400)
-999999999999999999999999999999
-999999999999999999999999999999
-999999999999999999999999999999 * 999999999999999999999999999999 = 999999999999999999999999999998000000000000000000000000000001
-0.000125 secs
+hello midterm
+input 2^p 3^q 5^r : p q r =>5 5 5
+N=24300000
+17.514198 secs
 ````	
 ##參考資料##
 1. 老師&老師的 Github [https://github.com/ycshu/midexam](https://github.com/ycshu/midexam)

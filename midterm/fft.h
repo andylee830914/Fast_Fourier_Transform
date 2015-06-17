@@ -15,15 +15,12 @@
 #include <time.h>
 
 #endif /* defined(__midterm__fft__) */
-int fft(long *x, long *y, int N,int prime,long W);
-int ifft(long *x, long *y, int N,int prime,long W);
+int fft(double *, double *, double *, double *, int N);
+int ifft(double *, double *, double *, double *, int N);
 /* define input x_r,input x_i,output y_r,output y_i, points of doing fft */
-int print_array(long *,int N);
-int print_int(long *,int N);
-void swap(int *,int *);
-//int bit_reverse(double *y_r, double *y_i, int N,int c);
-int butterfly(long *y_r, int N,int,int prime,long W);
-int ibutterfly(long *y_r, int N,int,int prime,long W);
-int groupn(long *x_r,int N);
-long Inverse_Zp(long w, int p);
-void FFTn(long *x,long *y,int N);
+int print_complex(double *, double *, int N);
+void swap(double *,double *);
+int bit_reverse(double *y_r, double *y_i, int N,int c);
+int butterfly(double *y_r, double *y_i, int N,int c,int);
+int ibutterfly(double *y_r, double *y_i, int N,int c,int);
+int groupn(double *x_r,double *x_i,int N,int p);
