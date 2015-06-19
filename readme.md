@@ -7,6 +7,7 @@
  * [離散餘弦轉換](https://github.com/andylee830914/Fast_Fourier_Transform/tree/DCT) ：Implement of radix-2, radix-3 & radix-5 DCT algorithm
  * [離散正弦轉換](https://github.com/andylee830914/Fast_Fourier_Transform/tree/DST) ：Implement of radix-2 DST algorithm
  * [快速乘法](https://github.com/andylee830914/Fast_Fourier_Transform/tree/multiplication) ：Application of General Discrete Fourier transform
+ * [快速卜瓦松解](https://github.com/andylee830914/Fast_Fourier_Transform/tree/FPS) ：Implement of Fast Poisson Solver algorithm. Application of 2D DST.
 
 #快速計算法期中考：快速傅立葉轉換#
 
