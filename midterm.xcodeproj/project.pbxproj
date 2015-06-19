@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BA4124181B33A9420064AB7A /* poisson_framework.c in Sources */ = {isa = PBXBuildFile; fileRef = BA3738631B331FF900EAA38A /* poisson_framework.c */; };
+		BA41241A1B33BD5E0064AB7A /* poisson_framework.c in Sources */ = {isa = PBXBuildFile; fileRef = BA4124191B33BD5E0064AB7A /* poisson_framework.c */; };
 		BA860C661ADF5FE000176884 /* sort.c in Sources */ = {isa = PBXBuildFile; fileRef = BA860C641ADF5FE000176884 /* sort.c */; };
 		BAB236D21AF7B9500024D4B3 /* fft.c in Sources */ = {isa = PBXBuildFile; fileRef = BAB236D01AF7B9500024D4B3 /* fft.c */; };
 /* End PBXBuildFile section */
@@ -25,7 +25,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		BA3738631B331FF900EAA38A /* poisson_framework.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = poisson_framework.c; path = ../../../Downloads/poisson_framework.c; sourceTree = "<group>"; };
+		BA4124191B33BD5E0064AB7A /* poisson_framework.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = poisson_framework.c; sourceTree = "<group>"; };
 		BA860C641ADF5FE000176884 /* sort.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sort.c; sourceTree = "<group>"; };
 		BA860C651ADF5FE000176884 /* sort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sort.h; sourceTree = "<group>"; };
 		BAB236D01AF7B9500024D4B3 /* fft.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fft.c; sourceTree = "<group>"; };
@@ -69,7 +69,7 @@
 				BAB236D11AF7B9500024D4B3 /* fft.h */,
 				BA860C651ADF5FE000176884 /* sort.h */,
 				BACC83021ADE134E00402556 /* main.c */,
-				BA3738631B331FF900EAA38A /* poisson_framework.c */,
+				BA4124191B33BD5E0064AB7A /* poisson_framework.c */,
 			);
 			path = midterm;
 			sourceTree = "<group>";
@@ -130,7 +130,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BA4124181B33A9420064AB7A /* poisson_framework.c in Sources */,
+				BA41241A1B33BD5E0064AB7A /* poisson_framework.c in Sources */,
 				BAB236D21AF7B9500024D4B3 /* fft.c in Sources */,
 				BA860C661ADF5FE000176884 /* sort.c in Sources */,
 			);
