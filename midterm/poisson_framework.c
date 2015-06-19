@@ -27,7 +27,7 @@ int main()
 	clock_t t1, t2;
 	
 	// Create memory for solving Ax = b, where r = b-Ax is the residue.
-	for(N=4;N<256;N*=2)
+	for(N=4;N<4096;N*=2)
 	{
 		// M is the total number of unknowns.
 		M = (N-1)*(N-1);
