@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BA41241A1B33BD5E0064AB7A /* poisson_framework.c in Sources */ = {isa = PBXBuildFile; fileRef = BA4124191B33BD5E0064AB7A /* poisson_framework.c */; };
 		BA860C661ADF5FE000176884 /* sort.c in Sources */ = {isa = PBXBuildFile; fileRef = BA860C641ADF5FE000176884 /* sort.c */; };
+		BAA9531F1B33C92000927249 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = BACC83021ADE134E00402556 /* main.c */; };
 		BAB236D21AF7B9500024D4B3 /* fft.c in Sources */ = {isa = PBXBuildFile; fileRef = BAB236D01AF7B9500024D4B3 /* fft.c */; };
 /* End PBXBuildFile section */
 
@@ -130,9 +130,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BA41241A1B33BD5E0064AB7A /* poisson_framework.c in Sources */,
 				BAB236D21AF7B9500024D4B3 /* fft.c in Sources */,
 				BA860C661ADF5FE000176884 /* sort.c in Sources */,
+				BAA9531F1B33C92000927249 /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

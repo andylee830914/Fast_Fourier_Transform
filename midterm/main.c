@@ -143,9 +143,9 @@ int main() {
     
     
 	//t1 = clock();
-    dst2d(F,N-1);
-    output(F,N-1);
-    printf("\n");
+    //dst2d(F,N-1);
+    //output(F,N-1);
+    //printf("\n");
     idst2d(F,N-1);
     output(F,N-1);
 	//t2 = clock();

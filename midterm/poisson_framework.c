@@ -4,7 +4,7 @@
 #include <math.h>
 #include <time.h>
 #include "fft.h"
-#define Gauss 1
+#define Gauss 0
 int Exact_Discretization(double **A, int N);
 int Print_Matrix(double **A, int N);
 int Exact_Solution(double **U, int N);
@@ -274,12 +274,12 @@ int iDST2D(double **X, int N)
     int j;
     
     for (j=N-1; j>=0; j--) {
-        dst(X[j], N);
+        idst(X[j], N);
     }
     Transpose(X, N);
     
     for (j=N-1; j>=0; j--) {
-        dst(X[j], N);
+        idst(X[j], N);
     }
     Transpose(X, N);
     
@@ -307,7 +307,7 @@ int Fast_Poisson_Solver(double **F, int N){
     DST2D(F,N);
     for (i=0; i<N; i++) {
         for (j=0; j<N; j++) {
-            F[i][j]=4*F[i][j]/(((2*cos(M_PI*(i+1)*h)-2)+(2*cos(M_PI*(j+1)*h)-2))/(h*h));
+            F[i][j]=(N+1)*(N+1)*F[i][j]/(((2*cos(M_PI*(i+1)*h)-2)+(2*cos(M_PI*(j+1)*h)-2))/(h*h));
         }
     }
     
