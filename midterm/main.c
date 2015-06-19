@@ -106,7 +106,7 @@ int main() {
     a = (char *) malloc(MAXCHAR*sizeof(char));
     b = (char *) malloc(MAXCHAR*sizeof(char));
     c = (char *) malloc(2*MAXCHAR*sizeof(char));
-    printf("hello midterm \n");
+    printf("hello final : Multiplication \n");
     
     
     
