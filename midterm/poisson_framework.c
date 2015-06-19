@@ -71,6 +71,8 @@ int main()
 		printf("%e,", Residual(r,A,x,b,M));
 	#endif
 		Exact_Solution(U, N);
+        //printf("\nsol\n");
+        //Print_Matrix(U, N-1);
 	#if Gauss
 		printf("%e\n", Error(x, u, M));
         //printf("\nsol\n");
@@ -79,6 +81,8 @@ int main()
 		t1 = clock();
 		Fast_Poisson_Solver(F, N-1);
 		t2 = clock();
+        //printf("\nsol\n");
+        //Print_Matrix(F, N-1);
 		printf("Fast Poisson Solver: %f secs\n", 1.0*(t2-t1)/CLOCKS_PER_SEC);
 		printf("%e\n", Error(b, u, M));
         //printf("\nsol\n");
@@ -122,7 +126,8 @@ int Print_Matrix(double **A, int N)
 	{
 		for(j=0;j<N;++j)
 		{
-			printf("%.0f ",A[i][j]);
+			//printf("%.0f ",A[i][j]);
+            printf("%f ",A[i][j]);
 		}
 		printf("\n");
 	}
