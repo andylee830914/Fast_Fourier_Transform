@@ -386,32 +386,41 @@ int groupn(double *x_r,double *x_i,int N,int p){
 }
 
 int reorder(double *x_r,double *x_i,int N){
-	int i,n;
-	double *u_r,*u_i;
-	u_r= (double *) malloc(2*(N+1)*sizeof(double));
-	u_i= (double *) malloc(2*(N+1)*sizeof(double));
-	//print_complex(x_r, x_i, N);
-	for (i=0; i<N; i++) {
-		u_r[i+1]=x_r[i];
-		u_i[i+1]=x_i[i];
-	}
-	for(n=0;n<2*N+2;n++){
-		
-		x_r[n] = u_r[n];
-		x_i[n] = u_i[n];
-	}
-	
-	free(u_r);
-	free(u_i);
-	//print_complex(x_r, x_i, N+1);
-	
-	return 0;
+    int i,n;
+    double *s_r,*s_i;
+    s_r= (double *) malloc(2*(N+1)*sizeof(double));
+    s_i= (double *) malloc(2*(N+1)*sizeof(double));
+    //print_complex(x_i, x_r, N);
+    
+    for (i=0; i<N; i++) {
+        s_r[i+1]=x_r[i];
+        s_i[i+1]=x_i[i];
+    }
+    //print_complex(s_i, s_r, N+1);
+    
+    for(n=1;n<N+1;n++){
+        
+        x_r[n] = s_r[n];
+        x_i[n] = s_i[n];
+        x_r[2*N+2-n] = -s_r[n];
+        x_i[2*N+2-n] = -s_i[n];
+    }
+    x_r[0]=0;
+    x_i[0]=0;
+    x_r[N+1]=0;
+    x_i[N+1]=0;
+    //print_complex(x_i, x_r, 2*N+2);
+    free(s_r);
+    free(s_i);
+    //print_complex(x_r, x_i, N+1);
+    
+    return 0;
 }
 
 int scale(double *x_r,double *x_i,int N){
 	int i;
 	for (i=0; i<N; i++) {
-		x_r[i]=x_r[i];
+		x_r[i]=x_r[i]/2;
 		x_i[i]=0;
 	}
 	
@@ -422,7 +431,7 @@ int scale(double *x_r,double *x_i,int N){
 int iscale(double *x_r,double *x_i,int N){
 	int i;
 	for (i=0; i<N; i++) {
-		x_r[i]=2*x_r[i]/(N+1);
+		x_r[i]=x_r[i]/(N+1);
 		x_i[i]=0;
 	}
 	
