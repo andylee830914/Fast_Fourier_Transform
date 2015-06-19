@@ -4,7 +4,7 @@
 #include <math.h>
 #include <time.h>
 #include "fft.h"
-#define Gauss 0
+#define Gauss 1
 int Exact_Discretization(double **A, int N);
 int Print_Matrix(double **A, int N);
 int Exact_Solution(double **U, int N);
@@ -27,7 +27,7 @@ int main()
 	clock_t t1, t2;
 	
 	// Create memory for solving Ax = b, where r = b-Ax is the residue.
-	for(N=4;N<4096;N*=2)
+	for(N=4;N<128;N*=2)
 	{
 		// M is the total number of unknowns.
 		M = (N-1)*(N-1);
@@ -307,10 +307,9 @@ int Fast_Poisson_Solver(double **F, int N){
     DST2D(F,N);
     for (i=0; i<N; i++) {
         for (j=0; j<N; j++) {
-            F[i][j]=(N+1)*(N+1)*F[i][j]/(((2*cos(M_PI*(i+1)*h)-2)+(2*cos(M_PI*(j+1)*h)-2))/(h*h));
+            F[i][j]/=((2*cos(M_PI*(i+1)*h)-2)+(2*cos(M_PI*(j+1)*h)-2));
         }
     }
-    
     iDST2D(F,N);
     return 0;
 }
